@@ -228,7 +228,8 @@
                 .replace(/\”/g, '\"') // fix curly quotes 
                 .replace(/<\/ol>\n<ol>/g, '') // fix incorrect oredered list
                 .replace(/<\/ul>\n<ul>/g, '') // fix incorrect unordered list 
-                .replace(/<\/a>(\w)/g, '</a> $1'); // fix a and text
+                .replace(/<\/a>(\w)/g, '</a> $1') // fix a and text
+                .replace(/(async|defer)=""/g, '$1'); // fix for async and defer widget
 
             // Add CSS Styles for CTA and Tables has to be minified"
             const minifiedCtaCssHtml = `<style>table,td,th{border:1px solid #000;padding:10px;border-collapse:collapse}</style>`;
