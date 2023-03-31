@@ -86,7 +86,7 @@
 
 <body>
     <div class="container">
-        <h1>Scripps HTML Processor</h1>
+        <h1>HTML Processor</h1>
         <div class="collapsible">
             <button class="collapsible-btn">What this App Does</button>
             <div class="collapsible-content">
@@ -98,6 +98,8 @@
                     <li>Adds minified Table and CTA CSS</li>
                     <li>Adds HTML Module</li>
                     <li>removes tags wrapping images</li>
+                    <li>Adds Space for CTA</li>
+                    <li>Fix incorrect ending tags for lists</li>
                 </ul>
             </div>
         </div>
@@ -176,12 +178,30 @@
                 tag.replaceWith(i);
             });
 
+            // // get all the image tags on the page
+            // const images = doc.getElementsByTagName('img');
+
+            // // loop through each image tag
+            // for (let i = 0; i < images.length; i++) {
+            //     const img = images[i];
+
+            //     // get the parent element of the image
+            //     let parent = img.parentNode;
+
+            //     // loop through parent elements until we find one that doesn't wrap the image tag
+            //     while (parent.tagName !== "body" && parent.tagName !== "html" && parent.tagName !== "div" && parent.getElementsByTagName("img").length === 1) {
+            //         img.parentNode.insertBefore(parent.firstChild, parent);
+            //         img.parentNode.removeChild(parent);
+            //         parent = img.parentNode;
+            //     }
+            // }
             // Additional Post Processing
             let processedHtml = doc.documentElement.innerHTML
                 .replace(/http:/g, 'https:') // Replace http with https
                 .replace(/<span[^>]*>|<\/span>/g, '') // Remove span tags
                 .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags
                 .replace(/<p[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/p>/g, '$1$2$3') // Remove p tags wrapping a and images
+                .replace(/<h\d[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/h\d>/g, '$1$2$3') // Remove heading tags wrapping a and images
                 .replace(/<p[^>]*?>(<iframe[^>]*?>)/g, '$1') // Remove p start tags wrapping iframe
                 .replace(/(<\/iframe[^>]*?>)<\/p>/g, '$1') // Remove p end tags wrapping iframe
                 .replace(/<p[^>]*?>(<script[^>]*?>)/g, '$1') // Remove p start tags wrapping script
