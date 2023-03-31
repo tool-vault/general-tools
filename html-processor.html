@@ -178,6 +178,13 @@
                 tag.replaceWith(i);
             });
 
+            const emptyLinks = doc.querySelectorAll('a[href=""]');
+
+            // remove each empty link and its ending tag
+            emptyLinks.forEach(link => {
+                link.parentNode.removeChild(link);
+            });
+
             // // get all the image tags on the page
             // const images = doc.getElementsByTagName('img');
 
