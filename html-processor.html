@@ -243,10 +243,15 @@
                 .replace(/<\/ul>\n<ul>/g, '') // fix incorrect unordered list 
                 .replace(/<\/a>(\w)/g, '</a> $1') // fix a and text
                 .replace(/style="list-style-type:disc/g, '</a> $1') // clean bullet list styles
+                .replace(/<\/?br^>]*?>/g, '') // clean br tags
                 .replace(/(async|defer)=""/g, '$1'); // fix for async and defer widget
 
-
-
+            // Fixing CTAs
+            // let processedHtml = doc.documentElement.innerHTML
+            //     .replace(/<p>&lt;style&gt;<\/p>/g, '<style>') // 
+            //     .replace(/<p>    &lt;/style&gt;</p>/g, '<style>') // R
+            // <p>&lt;style&gt;</p>
+            // <p>    &lt;/style&gt;</p>
 
             // Add CSS Styles for CTA and Tables has to be minified"
             const minifiedCtaCssHtml = `<style>table,td,th{border:1px solid #000;padding:10px;border-collapse:collapse}</style>`;
