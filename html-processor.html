@@ -192,6 +192,18 @@
                 parent.removeChild(link);
             });
 
+            // function to remove attributes from tags
+            function removeAttributeFromElements(selector, attribute) {
+                const elements = doc.querySelectorAll(`${selector}[${attribute}]`);
+                elements.forEach(element => {
+                    element.removeAttribute(attribute);
+                });
+            }
+
+            // remove the "style" attribute from all <li> and <ul> elements
+            removeAttributeFromElements('li', 'style');
+            removeAttributeFromElements('ul', 'style');
+
             // // get all the image tags on the page
             // const images = doc.getElementsByTagName('img');
 
@@ -230,7 +242,11 @@
                 .replace(/<\/ol>\n<ol>/g, '') // fix incorrect oredered list
                 .replace(/<\/ul>\n<ul>/g, '') // fix incorrect unordered list 
                 .replace(/<\/a>(\w)/g, '</a> $1') // fix a and text
+                .replace(/style="list-style-type:disc/g, '</a> $1') // clean bullet list styles
                 .replace(/(async|defer)=""/g, '$1'); // fix for async and defer widget
+
+
+
 
             // Add CSS Styles for CTA and Tables has to be minified"
             const minifiedCtaCssHtml = `<style>table,td,th{border:1px solid #000;padding:10px;border-collapse:collapse}</style>`;
