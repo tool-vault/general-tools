@@ -178,11 +178,16 @@
                 tag.replaceWith(i);
             });
 
-            const emptyLinks = doc.querySelectorAll('a[href=""]');
+            // get all anchor elements with blank href attribute
+            const emptyLinks = document.querySelectorAll('a[href=""]');
 
-            // remove each empty link and its ending tag
+            // replace each empty link with its contents
             emptyLinks.forEach(link => {
-                link.parentNode.removeChild(link);
+                const parent = link.parentNode;
+                while (link.firstChild) {
+                    parent.insertBefore(link.firstChild, link);
+                }
+                parent.removeChild(link);
             });
 
             // // get all the image tags on the page
