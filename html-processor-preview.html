@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <title>HTML Processor</title>
     <!-- <style>
         /* Styles for the app */
@@ -239,6 +240,7 @@
                 .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags
                 .replace(/<p[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/p>/g, '$1$2$3') // Remove p tags wrapping a and images
                 .replace(/<h\d[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/h\d>/g, '$1$2$3') // Remove heading tags wrapping a and images
+                .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '<div class="HtmlModule">$1$2$3</div>') // wrap div HTMLModule to a and images
                 .replace(/<p[^>]*?>(<iframe[^>]*?>)/g, '$1') // Remove p start tags wrapping iframe
                 .replace(/(<\/iframe[^>]*?>)<\/p>/g, '$1') // Remove p end tags wrapping iframe
                 .replace(/<p[^>]*?>(<script[^>]*?>)/g, '$1') // Remove p start tags wrapping script
@@ -272,8 +274,11 @@
 
             // Wrap final HTML inside a div with the class "HtmlModule"
             //const outputHtml = `<div class="HtmlModule">\n<div class="HtmlModule">\n${finalHtml}\n</div>\n</div>`;
-            const outputHtml = `<div class="HtmlModule">\n${finalHtml}\n</div>`;
-
+            let outputHtml = `<div class="HtmlModule">\n${finalHtml}\n</div>`;
+            
+            
+            // Remove indents 
+            outputHtml = htmlString.replace(/^\s+/gm, '');
 
             // Display the output HTML in the readonly textarea
             document.getElementById('html-output').value = outputHtml;
