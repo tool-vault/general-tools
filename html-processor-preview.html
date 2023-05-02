@@ -115,7 +115,7 @@
                     <li>Remove blank hrefs fix</li>
                     <li>Fix script async and defer conversions</li>
                     <li>Add HTMLModule to image</li>
-                    <li>Remove starting line indents</li>
+                    <li>Remove starting line indents (test)</li>
                 </ul>
             </div>
         </div>
@@ -280,7 +280,7 @@
             
             
             // Remove indents 
-            outputHtml = outputHtml.replace(/^\s+/gm, '');
+            outputHtml = outputHtml.replace(/^\s+/g, '');
 
             // Display the output HTML in the readonly textarea
             document.getElementById('html-output').value = outputHtml;
