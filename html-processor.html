@@ -103,6 +103,7 @@
                     <li>Remove blank hrefs fix</li>
                     <li>Fix script async and defer conversions</li>
                     <li>Add HTMLModule to image</li>
+                    <li>Remove starting line indents</li>
                 </ul>
             </div>
         </div>
@@ -263,8 +264,10 @@
 
             // Wrap final HTML inside a div with the class "HtmlModule"
             //const outputHtml = `<div class="HtmlModule">\n<div class="HtmlModule">\n${finalHtml}\n</div>\n</div>`;
-            const outputHtml = `<div class="HtmlModule">\n${finalHtml}\n</div>`;
-
+            let outputHtml = `<div class="HtmlModule">\n${finalHtml}\n</div>`;
+            
+            // Remove indents 
+            outputHtml = outputHtml.replace(/^\s+/gm, '');
 
             // Display the output HTML in the readonly textarea
             document.getElementById('html-output').value = outputHtml;
