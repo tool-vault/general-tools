@@ -102,6 +102,7 @@
                     <li>Fix incorrect ending tags for lists</li>
                     <li>Remove blank hrefs fix</li>
                     <li>Fix script async and defer conversions</li>
+                    <li>Add HTMLModule to image</li>
                 </ul>
             </div>
         </div>
@@ -228,6 +229,7 @@
                 .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags
                 .replace(/<p[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/p>/g, '$1$2$3') // Remove p tags wrapping a and images
                 .replace(/<h\d[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/h\d>/g, '$1$2$3') // Remove heading tags wrapping a and images
+                .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '<div class="HtmlModule">$1$2$3</div>') // wrap div HTMLModule to a and images
                 .replace(/<p[^>]*?>(<iframe[^>]*?>)/g, '$1') // Remove p start tags wrapping iframe
                 .replace(/(<\/iframe[^>]*?>)<\/p>/g, '$1') // Remove p end tags wrapping iframe
                 .replace(/<p[^>]*?>(<script[^>]*?>)/g, '$1') // Remove p start tags wrapping script
