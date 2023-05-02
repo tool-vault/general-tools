@@ -280,7 +280,7 @@
             
             
             // Remove indents 
-            outputHtml = outputHtml.replace(/^\s+/g, '');
+            outputHtml = outputHtml.replace(/^\s+/gm, '');
 
             // Display the output HTML in the readonly textarea
             document.getElementById('html-output').value = outputHtml;
