@@ -104,6 +104,7 @@
                     <li>Fix script async and defer conversions</li>
                     <li>Add HTMLModule to image</li>
                     <li>Remove starting line indents</li>
+                    <li>Possible Fix for leading empty bullet list</li>
                 </ul>
             </div>
         </div>
@@ -247,7 +248,8 @@
                 .replace(/<\/a>(\w)/g, '</a> $1') // fix a and text
                 .replace(/style="list-style-type:disc/g, '</a> $1') // clean bullet list styles
                 .replace(/<\/?br^>]*?>/g, '') // clean br tags
-                .replace(/(async|defer)=""/g, '$1'); // fix for async and defer widget
+                .replace(/(async|defer)=""/g, '$1') // fix for async and defer widget
+                .replace(/(<ul>|<ol>)\n(<li>)/g, '$1$2'); // fix for async and defer widget
 
             // Fixing CTAs
             // let processedHtml = doc.documentElement.innerHTML
