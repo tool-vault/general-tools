@@ -57,20 +57,22 @@
         <label for="html-input">HTML Input (Insert HTML Here):</label>
         <small><textarea id="html-input" rows="10" cols="50"></textarea></small>
         <article>
-            <section>
                 <details>
                     <summary role="button" onclick="findUrls()">Nofollow/Dofollow Checker</summary>
                     <main class="container">
                         <h6>NoFollow and DoFollow URLs Finder</h6>
-                        <button onclick="findUrls()">Find URLs</button>
                         <div class="grid">
                             <div>
                                 <h6>NoFollow URLs:</h6>
+                                <small>
                                 <ul id="nofollow-urls"></ul>
+                                </small>
                             </div>
                             <div>
                                 <h6>DoFollow URLs:</h6>
+                                <small>
                                 <ul id="dofollow-urls"></ul>
+                                </small>
                             </div>
                         </div>
                     </main>
@@ -129,7 +131,6 @@
                         }
                     </script>
                 </details>
-            </section>
         </article>
         <label for="whitelist">Dofollow URLs. These are the dofollow links (one per line):</label>
         <textarea id="whitelist" rows="10" cols="50"></textarea>
