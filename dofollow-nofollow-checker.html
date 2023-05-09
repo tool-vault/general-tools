@@ -32,7 +32,7 @@
 
             for (let link of links) {
                 const listItem = document.createElement('li');
-                listItem.textContent = link.textContent;
+                listItem.textContent = link.href;
 
                 if (link.rel === 'nofollow') {
                     nofollowLinksList.appendChild(listItem);
