@@ -103,18 +103,22 @@
                             // select all anchor elements in the parsed HTML code
                             var anchorElements = tempElement.querySelectorAll("a");
 
-                            // create arrays to store URLs with the nofollow and dofollow attributes
-                            var nofollowUrls = [];
-                            var dofollowUrls = [];
+                            // create sets to store unique URLs with the nofollow and dofollow attributes
+                            var nofollowUrlsSet = new Set();
+                            var dofollowUrlsSet = new Set();
 
                             // loop through the anchor elements and check if they have the nofollow attribute
                             anchorElements.forEach(function (anchorElement) {
                                 if (anchorElement.rel.includes("nofollow")) {
-                                    nofollowUrls.push(anchorElement.href);
+                                    nofollowUrlsSet.add(anchorElement.href);
                                 } else {
-                                    dofollowUrls.push(anchorElement.href);
+                                    dofollowUrlsSet.add(anchorElement.href);
                                 }
                             });
+
+                            // convert the sets to arrays
+                            var nofollowUrls = Array.from(nofollowUrlsSet);
+                            var dofollowUrls = Array.from(dofollowUrlsSet);
 
                             // display the URLs with the nofollow attribute in a list
                             var nofollowUrlsList = document.getElementById("nofollow-urls");
