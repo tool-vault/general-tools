@@ -6,83 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <title>HTML Processor</title>
-    <style>
-        /* Styles for the app */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 300px;
-            resize: vertical;
-            margin-bottom: 1rem;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            font-size: 1rem;
-            padding: 0.5rem 1rem;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .preview {
-            background-color: white;
-            border: 1px solid #ccc;
-            padding: 1rem;
-            margin-top: 1rem;
-            display: none;
-        }
-
-        .collapsible-btn {
-            background-color: #eee;
-            color: #444;
-            cursor: pointer;
-            padding: 18px;
-            width: 100%;
-            text-align: left;
-            border: none;
-            outline: none;
-            font-size: 16px;
-            transition: 0.4s;
-        }
-
-        .active,
-        .collapsible-btn:hover {
-            background-color: #ccc;
-        }
-
-        .collapsible-content {
-            padding: 0 18px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.2s ease-out;
-        }
-    </style>
 </head>
 
 <body>
@@ -91,6 +14,7 @@
         <div class="collapsible">
             <button class="collapsible-btn">What this App Does</button>
             <div class="collapsible-content">
+                <small>
                 <p>This Processes HTML Code to be Scripps Compliant</p>
                 <ul>
                     <li>Changes strong tags to b</li>
@@ -107,6 +31,7 @@
                     <li>Remove starting line indents</li>
                     <li>Possible Fix for leading empty bullet list</li>
                 </ul>
+                </small>
             </div>
         </div>
         <br />
