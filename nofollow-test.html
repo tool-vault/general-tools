@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NoFollow URLs Finder</title>
+</head>
+<body>
+  <h1>NoFollow URLs Finder</h1>
+  <p>Paste your HTML code below:</p>
+  <textarea id="html-input" rows="10" cols="50"></textarea>
+  <button onclick="findNoFollowUrls()">Find NoFollow URLs</button>
+  <h2>NoFollow URLs:</h2>
+  <ul id="nofollow-urls"></ul>
+  
+  <script>
+    function findNoFollowUrls() {
+      // get the HTML code from the textarea
+      var userInput = document.getElementById("html-input").value;
+
+      // create a temporary element to parse the HTML code
+      var tempElement = document.createElement("div");
+      tempElement.innerHTML = userInput;
+
+      // select all anchor elements in the parsed HTML code
+      var anchorElements = tempElement.querySelectorAll("a");
+
+      // create an array to store URLs with the nofollow attribute
+      var nofollowUrls = [];
+
+      // loop through the anchor elements and check if they have the nofollow attribute
+      anchorElements.forEach(function(anchorElement) {
+        if (anchorElement.rel.includes("nofollow")) {
+          nofollowUrls.push(anchorElement.href);
+        }
+      });
+
+      // display the URLs with the nofollow attribute in a list
+      var nofollowUrlsList = document.getElementById("nofollow-urls");
+      nofollowUrlsList.innerHTML = "";
+      nofollowUrls.forEach(function(nofollowUrl) {
+        var listItem = document.createElement("li");
+        var link = document.createElement("a");
+        link.href = nofollowUrl;
+        link.textContent = nofollowUrl;
+        listItem.appendChild(link);
+        nofollowUrlsList.appendChild(listItem);
+      });
+    }
+  </script>
+</body>
+</html>
