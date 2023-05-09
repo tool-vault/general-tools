@@ -86,6 +86,17 @@
 </head>
 
 <body>
+    <header>
+		<h1>PM Simple Tools</h1>
+	</header>
+
+	<nav>
+		<ul>
+			<li><a href="https://tool-vault.github.io/general-tools/">Home</a></li>
+			<li><a href="https://tool-vault.github.io/general-tools/html-processor.html">HTML Processor</a></li>
+			<li><a href="https://tool-vault.github.io/general-tools/html-processor-preview.html">HTML Processor - Testing</a></li>
+		</ul>
+	</nav>
     <div class="container">
         <h1>HTML Processor</h1>
         <div class="collapsible">
@@ -104,8 +115,7 @@
                     <li>Remove blank hrefs fix</li>
                     <li>Fix script async and defer conversions</li>
                     <li>Add HTMLModule to image</li>
-                    <li>Remove starting line indents</li>
-                    <li>Possible Fix for leading empty bullet list</li>
+                    <li>Remove starting line indents (test)</li>
                 </ul>
             </div>
         </div>
@@ -230,8 +240,6 @@
                 .replace(/http:/g, 'https:') // Replace http with https
                 .replace(/<span[^>]*>|<\/span>/g, '') // Remove span tags
                 .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags
-                .replace(/(<div[^>]*?>)/g, '<p>&nbsp;</p>\n$1') // Add spaces in start CTA
-                .replace(/(<\/div>)/g, '$1\n<p>&nbsp;</p>') // Add spaces in end CTA
                 .replace(/<p[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/p>/g, '$1$2$3') // Remove p tags wrapping a and images
                 .replace(/<h\d[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/h\d>/g, '$1$2$3') // Remove heading tags wrapping a and images
                 .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '<div class="HtmlModule">$1$2$3</div>') // wrap div HTMLModule to a and images
@@ -239,6 +247,8 @@
                 .replace(/(<\/iframe[^>]*?>)<\/p>/g, '$1') // Remove p end tags wrapping iframe
                 .replace(/<p[^>]*?>(<script[^>]*?>)/g, '$1') // Remove p start tags wrapping script
                 .replace(/(\/<script[^>]*?>)<\/p>/g, '$1') // Remove p end tags wrapping script
+                .replace(/(<div[^>]*?>)/g, '<p>&nbsp;</p>\n$1') // Add spaces in start CTA
+                .replace(/(<\/div>)/g, '$1\n<p>&nbsp;</p>') // Add spaces in end CTA
                 .replace(/<<</g, '<&lt;&lt;') // fix <<<
                 .replace(/>>>/g, '>&gt;&gt;') // fix >>>
                 .replace(/='/g, '=\"') // fix beginning single quotes
@@ -249,8 +259,7 @@
                 .replace(/<\/a>(\w)/g, '</a> $1') // fix a and text
                 .replace(/style="list-style-type:disc/g, '</a> $1') // clean bullet list styles
                 .replace(/<\/?br^>]*?>/g, '') // clean br tags
-                .replace(/(async|defer)=""/g, '$1') // fix for async and defer widget
-                .replace(/(<ul>|<ol>)\n(<li>)/g, '$1$2'); // fix for leading empty bullet lists
+                .replace(/(async|defer)=""/g, '$1'); // fix for async and defer widget
 
             // Fixing CTAs
             // let processedHtml = doc.documentElement.innerHTML
@@ -268,7 +277,8 @@
             // Wrap final HTML inside a div with the class "HtmlModule"
             //const outputHtml = `<div class="HtmlModule">\n<div class="HtmlModule">\n${finalHtml}\n</div>\n</div>`;
             let outputHtml = `<div class="HtmlModule">\n${finalHtml}\n</div>`;
-
+            
+            
             // Remove indents 
             outputHtml = outputHtml.replace(/^\s+/gm, '');
 

@@ -1,46 +1,78 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html data-theme="light">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">    
-    <title>Display Dofollow and Nofollow Links</title>
+    <title>NoFollow and DoFollow URLs Finder</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
 </head>
+
 <body>
-    <h2>Input HTML:</h2>
+    <main class="container">
+    <h1>NoFollow and DoFollow URLs Finder</h1>
+    <p>Paste your HTML code below:</p>
     <textarea id="html-input" rows="10" cols="50"></textarea>
-    <button onclick="displayDofollowNofollowLinks()">Submit</button>
-
-    <h2>Dofollow Links:</h2>
-    <ul id="dofollow-links"></ul>
-
-    <h2>Nofollow Links:</h2>
-    <ul id="nofollow-links"></ul>
-
+    <button onclick="findUrls()">Find URLs</button>
+    <div class="grid">
+        <div>
+            <h2>NoFollow URLs:</h2>
+            <ul id="nofollow-urls"></ul>
+        </div>
+        <div>
+            <h2>DoFollow URLs:</h2>
+            <ul id="dofollow-urls"></ul>
+        </div>
+    </div>
+    </main>
     <script>
-        function displayDofollowNofollowLinks() {
-            const htmlInput = document.getElementById('html-input').value;
-            const parser = new DOMParser();
-            const parsedHTML = parser.parseFromString(htmlInput, 'text/html');
-            const links = parsedHTML.getElementsByTagName('a');
-            let dofollowLinksList = document.getElementById('dofollow-links');
-            let nofollowLinksList = document.getElementById('nofollow-links');
+        function findUrls() {
+            // get the HTML code from the textarea
+            var userInput = document.getElementById("html-input").value;
 
-            // Clear previous results
-            dofollowLinksList.innerHTML = '';
-            nofollowLinksList.innerHTML = '';
+            // create a temporary element to parse the HTML code
+            var tempElement = document.createElement("div");
+            tempElement.innerHTML = userInput;
 
-            for (let link of links) {
-                let listItem = document.createElement('li');
-                listItem.textContent = link.href;
+            // select all anchor elements in the parsed HTML code
+            var anchorElements = tempElement.querySelectorAll("a");
 
-                if (link.rel === 'nofollow') {
-                    nofollowLinksList.appendChild(listItem);
+            // create arrays to store URLs with the nofollow and dofollow attributes
+            var nofollowUrls = [];
+            var dofollowUrls = [];
+
+            // loop through the anchor elements and check if they have the nofollow attribute
+            anchorElements.forEach(function (anchorElement) {
+                if (anchorElement.rel.includes("nofollow")) {
+                    nofollowUrls.push(anchorElement.href);
                 } else {
-                    dofollowLinksList.appendChild(listItem);
+                    dofollowUrls.push(anchorElement.href);
                 }
-            }
+            });
+
+            // display the URLs with the nofollow attribute in a list
+            var nofollowUrlsList = document.getElementById("nofollow-urls");
+            nofollowUrlsList.innerHTML = "";
+            nofollowUrls.forEach(function (nofollowUrl) {
+                var listItem = document.createElement("li");
+                var link = document.createElement("a");
+                link.href = nofollowUrl;
+                link.textContent = nofollowUrl;
+                listItem.appendChild(link);
+                nofollowUrlsList.appendChild(listItem);
+            });
+
+            // display the URLs without the nofollow attribute in a list
+            var dofollowUrlsList = document.getElementById("dofollow-urls");
+            dofollowUrlsList.innerHTML = "";
+            dofollowUrls.forEach(function (dofollowUrl) {
+                var listItem = document.createElement("li");
+                var link = document.createElement("a");
+                link.href = dofollowUrl;
+                link.textContent = dofollowUrl;
+                listItem.appendChild(link);
+                dofollowUrlsList.appendChild(listItem);
+            });
         }
     </script>
 </body>
+
 </html>
