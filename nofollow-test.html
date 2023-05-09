@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="light">
 
 <head>
     <title>NoFollow and DoFollow URLs Finder</title>
@@ -11,11 +11,16 @@
     <p>Paste your HTML code below:</p>
     <textarea id="html-input" rows="10" cols="50"></textarea>
     <button onclick="findUrls()">Find URLs</button>
-    <h2>NoFollow URLs:</h2>
-    <ul id="nofollow-urls"></ul>
-    <h2>DoFollow URLs:</h2>
-    <ul id="dofollow-urls"></ul>
-
+    <div class="grid">
+        <div>
+            <h2>NoFollow URLs:</h2>
+            <ul id="nofollow-urls"></ul>
+        </div>
+        <div>
+            <h2>DoFollow URLs:</h2>
+            <ul id="dofollow-urls"></ul>
+        </div>
+    </div>
     <script>
         function findUrls() {
             // get the HTML code from the textarea
