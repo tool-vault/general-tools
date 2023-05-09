@@ -11,28 +11,28 @@
 <body>
     <div class="container">
         <section>
-        <h1>HTML Processor</h1>
-        <details>
-        <summary role="button" class="secondary">What this App Does</summary>
+            <h1>HTML Processor</h1>
+            <details>
+                <summary role="button" class="secondary">What this App Does</summary>
                 <small>
-                <p>This Processes HTML Code to be Scripps Compliant</p>
-                <ul>
-                    <li>Changes strong tags to b</li>
-                    <li>Change em tags to i</li>
-                    <li>Removes links to images</li>
-                    <li>Adds minified Table and CTA CSS</li>
-                    <li>Adds HTML Module</li>
-                    <li>removes tags wrapping images</li>
-                    <li>Adds Space for CTA</li>
-                    <li>Fix incorrect ending tags for lists</li>
-                    <li>Remove blank hrefs fix</li>
-                    <li>Fix script async and defer conversions</li>
-                    <li>Add HTMLModule to image</li>
-                    <li>Remove starting line indents</li>
-                    <li>Possible Fix for leading empty bullet list</li>
-                </ul>
+                    <p>This Processes HTML Code to be Scripps Compliant</p>
+                    <ul>
+                        <li>Changes strong tags to b</li>
+                        <li>Change em tags to i</li>
+                        <li>Removes links to images</li>
+                        <li>Adds minified Table and CTA CSS</li>
+                        <li>Adds HTML Module</li>
+                        <li>removes tags wrapping images</li>
+                        <li>Adds Space for CTA</li>
+                        <li>Fix incorrect ending tags for lists</li>
+                        <li>Remove blank hrefs fix</li>
+                        <li>Fix script async and defer conversions</li>
+                        <li>Add HTMLModule to image</li>
+                        <li>Remove starting line indents</li>
+                        <li>Possible Fix for leading empty bullet list</li>
+                    </ul>
                 </small>
-        </details>
+            </details>
         </section>
         <br />
         <button onclick="clearTextareas()">Clear Textareas</button>
@@ -56,7 +56,77 @@
         </script>
 
         <label for="html-input">HTML Input (Insert HTML Here):</label>
-        <textarea id="html-input" rows="10" cols="50"></textarea>
+        <textarea id="html-input" rows="10" cols="50"><small></small></textarea>
+        <section>
+            <details>
+                <summary role="button">Nofollow/Dofollow</summary>
+                <main class="container">
+                    <h1>NoFollow and DoFollow URLs Finder</h1>
+                    <p>Paste your HTML code below:</p>
+                    <button onclick="findUrls()">Find URLs</button>
+                    <div class="grid">
+                        <div>
+                            <h2>NoFollow URLs:</h2>
+                            <ul id="nofollow-urls"></ul>
+                        </div>
+                        <div>
+                            <h2>DoFollow URLs:</h2>
+                            <ul id="dofollow-urls"></ul>
+                        </div>
+                    </div>
+                </main>
+                <script>
+                    function findUrls() {
+                        // get the HTML code from the textarea
+                        var userInput = document.getElementById("html-input").value;
+
+                        // create a temporary element to parse the HTML code
+                        var tempElement = document.createElement("div");
+                        tempElement.innerHTML = userInput;
+
+                        // select all anchor elements in the parsed HTML code
+                        var anchorElements = tempElement.querySelectorAll("a");
+
+                        // create arrays to store URLs with the nofollow and dofollow attributes
+                        var nofollowUrls = [];
+                        var dofollowUrls = [];
+
+                        // loop through the anchor elements and check if they have the nofollow attribute
+                        anchorElements.forEach(function (anchorElement) {
+                            if (anchorElement.rel.includes("nofollow")) {
+                                nofollowUrls.push(anchorElement.href);
+                            } else {
+                                dofollowUrls.push(anchorElement.href);
+                            }
+                        });
+
+                        // display the URLs with the nofollow attribute in a list
+                        var nofollowUrlsList = document.getElementById("nofollow-urls");
+                        nofollowUrlsList.innerHTML = "";
+                        nofollowUrls.forEach(function (nofollowUrl) {
+                            var listItem = document.createElement("li");
+                            var link = document.createElement("a");
+                            link.href = nofollowUrl;
+                            link.textContent = nofollowUrl;
+                            listItem.appendChild(link);
+                            nofollowUrlsList.appendChild(listItem);
+                        });
+
+                        // display the URLs without the nofollow attribute in a list
+                        var dofollowUrlsList = document.getElementById("dofollow-urls");
+                        dofollowUrlsList.innerHTML = "";
+                        dofollowUrls.forEach(function (dofollowUrl) {
+                            var listItem = document.createElement("li");
+                            var link = document.createElement("a");
+                            link.href = dofollowUrl;
+                            link.textContent = dofollowUrl;
+                            listItem.appendChild(link);
+                            dofollowUrlsList.appendChild(listItem);
+                        });
+                    }
+                </script>
+            </details>
+        </section>
         <label for="whitelist">Dofollow URLs. These are the dofollow links (one per line):</label>
         <textarea id="whitelist" rows="10" cols="50"></textarea>
         <br />
