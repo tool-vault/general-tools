@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JavaScript: Paste Elements into Textarea</title>
+</head>
+
+<body>
+    <!-- Create a textarea element and a button element -->
+    <textarea id="myTextarea"></textarea>
+    <button onclick="pasteText()">Paste Text</button>
+
+    <script>
+        function pasteText() {
+            // Get the textarea element
+            var textarea = document.getElementById("myTextarea");
+
+            // Create a new element to paste into the textarea
+            var newElement = document.createElement("p");
+            newElement.innerText = "This is some text that I want to paste into the textarea.";
+
+            // Paste the element into the textarea
+            textarea.value = newElement.innerText;
+        }
+    </script>
+</body>
+
+</html>
