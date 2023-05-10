@@ -7,9 +7,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <style>
+        /* Style for the alert notification */
+        .alert {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #4CAF50;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Show the alert notification */
+        .alert.show {
+            opacity: 1;
+        }
+
+        /* Style for the copy icon container */
+        .copy-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        /* Style for the copy icon */
         .copy-icon {
-            margin-left: 10px;
             cursor: pointer;
+            padding: 8px 12px;
+            margin: 4px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        /* Hover style for the copy icon */
+        .copy-icon:hover {
+            background-color: #3e8e41;
+        }
+
+        /* Active style for the copy icon */
+        .copy-icon:active {
+            background-color: #295c2e;
         }
     </style>
 </head>
@@ -35,6 +81,7 @@
             <input type="text" id="text-input">
             <button onclick="generateSlug()">Generate Slug</button>
             <p id="slug-output"></p>
+            <div class="alert" id="alert">Copied to clipboard!</div>
 
             <script>
                 function generateSlug() {
@@ -47,13 +94,18 @@
                     slugOutput.textContent = slug;
 
                     // Add the copy icon to the output element
+                    const copyContainer = document.createElement("div");
+                    copyContainer.classList.add("copy-container");
+
                     const copyIcon = document.createElement("i");
                     copyIcon.classList.add("fas", "fa-copy", "copy-icon");
                     copyIcon.addEventListener("click", () => {
                         copyToClipboard(slug);
-                        alert("Copied to clipboard!");
+                        showNotification();
                     });
-                    slugOutput.appendChild(copyIcon);
+                    copyContainer.appendChild(copyIcon);
+
+                    slugOutput.appendChild(copyContainer);
                 }
 
                 function slugify(text) {
@@ -73,16 +125,23 @@
                 }
 
                 function copyToClipboard(text) {
-                    const el = document.createElement('textarea');
-                    el.value = text;
-                    document.body.appendChild(el);
-                    el.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(el);
+                    navigator.clipboard.writeText(text).then(() => {
+                        console.log("Copied to clipboard:", text);
+                    }).catch((error) => {
+                        console.error("Error copying text to clipboard:", error);
+                    });
+                }
+
+                function showNotification() {
+                    const alertElement = document.getElementById("alert");
+                    alertElement.classList.add("show");
+                    setTimeout(() => {
+                        alertElement.classList.remove("show");
+                    }, 5000);
                 }
             </script>
 
-            <script src="https://kit.fontawesome.com/0123456789.js" crossorigin="anonymous"></script>
+            <script src="https://kit.fontawesome.com/cd8f85c60e.js" crossorigin="anonymous"></script>
         </article>
     </main>
 </body>
