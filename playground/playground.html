@@ -1,28 +1,40 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>JavaScript: Paste Elements into Textarea</title>
+	<title>HTML Checklist</title>
 </head>
-
 <body>
-    <!-- Create a textarea element and a button element -->
-    <textarea id="myTextarea"></textarea>
-    <button onclick="pasteText()">Paste Text</button>
-
-    <script>
-        function pasteText() {
-            // Get the textarea element
-            var textarea = document.getElementById("myTextarea");
-
-            // Create a new element to paste into the textarea
-            var newElement = document.createElement("p");
-            newElement.innerText = "This is some text that I want to paste into the textarea.";
-
-            // Paste the element into the textarea
-            textarea.value = newElement.innerText;
-        }
-    </script>
+	<form>
+		<label for="html-input">Enter HTML code:</label>
+		<br>
+		<textarea id="html-input" name="html-input" rows="10" cols="50"></textarea>
+		<br>
+		<button type="button" onclick="parseHtml()">Create Checklist</button>
+	</form>
+	<br>
+	<div id="checklist"></div>
+	<script>
+		function parseHtml() {
+			var html = document.getElementById("html-input").value;
+			var parser = new DOMParser();
+			var doc = parser.parseFromString(html, "text/html");
+			var anchors = doc.getElementsByTagName("a");
+			var checklist = document.getElementById("checklist");
+			for (var i = 0; i < anchors.length; i++) {
+				var anchor = anchors[i];
+				var checkbox = document.createElement("input");
+				checkbox.type = "checkbox";
+				checkbox.id = "checkbox-" + i;
+				checkbox.value = anchor.href;
+				var label = document.createElement("label");
+				label.htmlFor = checkbox.id;
+				label.appendChild(document.createTextNode(anchor.textContent));
+				var br = document.createElement("br");
+				checklist.appendChild(checkbox);
+				checklist.appendChild(label);
+				checklist.appendChild(br);
+			}
+		}
+	</script>
 </body>
-
 </html>
