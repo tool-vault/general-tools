@@ -268,8 +268,10 @@
             //const outputHtml = `<div class="HtmlModule">\n<div class="HtmlModule">\n${finalHtml}\n</div>\n</div>`;
             let outputHtml = `<div class="HtmlModule">\n${finalHtml}\n</div>`;
             
-            // Remove indents 
-            outputHtml = outputHtml.replace(/^\s+/gm, '');
+            // Remove indents and empty lines
+            outputHtml = outputHtml
+                .replace(/^\s+/gm, '')
+                .replace(/^\s*[\r\n]/gm, '');
 
             // Display the output HTML in the readonly textarea
             document.getElementById('html-output').value = outputHtml;

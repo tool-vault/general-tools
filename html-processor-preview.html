@@ -251,6 +251,7 @@
                 .replace(/<\/?br^>]*?>/g, '') // clean br tags
                 .replace(/(async|defer)=""/g, '$1') // fix for async and defer widget
                 .replace(/(<ul>|<ol>)\n(<li>)/g, '$1$2'); // fix for leading empty bullet lists
+                
 
             // Fixing CTAs
             // let processedHtml = doc.documentElement.innerHTML
@@ -269,8 +270,10 @@
             //const outputHtml = `<div class="HtmlModule">\n<div class="HtmlModule">\n${finalHtml}\n</div>\n</div>`;
             let outputHtml = `<div class="HtmlModule">\n${finalHtml}\n</div>`;
 
-            // Remove indents 
-            outputHtml = outputHtml.replace(/^\s+/gm, '');
+            // Remove indents and empty lines
+            outputHtml = outputHtml
+                .replace(/^\s+/gm, '')
+                .replace(/^\s*[\r\n]/gm, '');
 
             // Display the output HTML in the readonly textarea
             document.getElementById('html-output').value = outputHtml;
