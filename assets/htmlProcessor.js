@@ -196,7 +196,7 @@ function processHTML() {
     document.getElementById('html-output').value = outputHtml;
 }
 
-document.getElementById('process').addEventListener('click', processHTML);
+// document.getElementById('process').addEventListener('click', processHTML);
 
 
 // Function to copy html-ouput to clipboard
@@ -207,7 +207,7 @@ function copyToClipboard() {
     document.execCommand('copy');
 }
 
-document.getElementById('copy').addEventListener('click', copyToClipboard);
+// document.getElementById('copy').addEventListener('click', copyToClipboard);
 
 
 
