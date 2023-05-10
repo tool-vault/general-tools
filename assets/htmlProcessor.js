@@ -227,9 +227,6 @@ document.body.appendChild(alert);
 setTimeout(function () {
     alert.parentNode.removeChild(alert);
 }, 5000);
-}
-
-document.getElementById('copy').addEventListener('click', copyToClipboard);
 // document.getElementById('copy').addEventListener('click', copyToClipboard);
 
 
