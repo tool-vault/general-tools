@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <title>Anchor Tag Checker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <style>
+        .copy-icon {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="container-fluid">
+        <ul>
+            <li>
+                <p>PM Publishing Tools</p>
+            </li>
+        </ul>
+        <ul>
+            <li><a href="https://tool-vault.github.io/general-tools/" role="button">Home</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/html-processor.html" role="button">HTML Processor</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/dofollow-nofollow-checker.html" role="button">Dofollow Nofollow Checker</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/playground/playground.html" role="button">Playground</a></li>
+        </ul>
+    </nav>
+    <main class="container">
+        <article>
+            <h1>URL Slug Generator</h1>
+            <label for="text-input">Enter text:</label>
+            <input type="text" id="text-input">
+            <button onclick="generateSlug()">Generate Slug</button>
+            <p id="slug-output"></p>
+
+            <script>
+                function generateSlug() {
+                    // Get the input text and slugify it
+                    const textInput = document.getElementById("text-input").value;
+                    const slug = slugify(textInput);
+
+                    // Display the slug in the output element
+                    const slugOutput = document.getElementById("slug-output");
+                    slugOutput.textContent = slug;
+
+                    // Add the copy icon to the output element
+                    const copyIcon = document.createElement("i");
+                    copyIcon.classList.add("fas", "fa-copy", "copy-icon");
+                    copyIcon.addEventListener("click", () => {
+                        copyToClipboard(slug);
+                        alert("Copied to clipboard!");
+                    });
+                    slugOutput.appendChild(copyIcon);
+                }
+
+                function slugify(text) {
+                    // Convert text to lowercase
+                    text = text.toLowerCase();
+
+                    // Remove any non-letter or non-number characters with a hyphen
+                    text = text.replace(/[^a-z0-9]+/g, "-");
+
+                    // Remove leading and trailing hyphens
+                    text = text.replace(/^-+|-+$/g, "");
+
+                    // Convert any non-Latin characters to their Latin equivalents
+                    text = text.normalize('NFKD').replace(/[\u0300-\u036F]/g, "");
+
+                    return text;
+                }
+
+                function copyToClipboard(text) {
+                    const el = document.createElement('textarea');
+                    el.value = text;
+                    document.body.appendChild(el);
+                    el.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(el);
+                }
+            </script>
+
+            <script src="https://kit.fontawesome.com/0123456789.js" crossorigin="anonymous"></script>
+        </article>
+    </main>
+</body>
+
+</html>
