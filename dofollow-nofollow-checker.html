@@ -7,21 +7,34 @@
 </head>
 
 <body>
+    <nav class="container-fluid">
+        <ul>
+            <li>
+                <p>PM Publishing Tools</p>
+            </li>
+        </ul>
+        <ul>
+            <li><a href="https://tool-vault.github.io/general-tools/" role="button">Home</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/html-processor.html" role="button">HTML Processor</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/dofollow-nofollow-checker.html" role="button">Dofollow Nofollow Checker</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/playground/playground.html" role="button">Playground</a></li>
+        </ul>
+    </nav>
     <main class="container">
-    <h1>NoFollow and DoFollow URLs Finder</h1>
-    <p>Paste your HTML code below:</p>
-    <textarea id="html-input" rows="10" cols="50"></textarea>
-    <button onclick="findUrls()">Find URLs</button>
-    <div class="grid">
-        <div>
-            <h5>NoFollow URLs:</h5>
-            <ul id="nofollow-urls"></ul>
+        <h1>NoFollow and DoFollow URLs Finder</h1>
+        <p>Paste your HTML code below:</p>
+        <textarea id="html-input" rows="10" cols="50"></textarea>
+        <button onclick="findUrls()">Find URLs</button>
+        <div class="grid">
+            <div>
+                <h5>NoFollow URLs:</h5>
+                <ul id="nofollow-urls"></ul>
+            </div>
+            <div>
+                <h5>DoFollow URLs:</h5>
+                <ul id="dofollow-urls"></ul>
+            </div>
         </div>
-        <div>
-            <h5>DoFollow URLs:</h5>
-            <ul id="dofollow-urls"></ul>
-        </div>
-    </div>
     </main>
     <script>
         function findUrls() {
