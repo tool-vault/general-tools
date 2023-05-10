@@ -60,6 +60,8 @@ document.getElementById('process').addEventListener('click', processHTML);
 document.getElementById('copy').addEventListener('click', copyToClipboard);
 document.getElementById('preview-toggle').addEventListener('click', togglePreview);
 
+
+// Function to do main processing of HTML
 function processHTML() {
     const htmlInput = document.getElementById('html-input').value;
     const whitelist = document.getElementById('whitelist').value.split('\n');
@@ -194,8 +196,10 @@ function processHTML() {
     document.getElementById('html-output').value = outputHtml;
 }
 
-// Function to copy html-ouput to clipboard
+document.getElementById('process').addEventListener('click', processHTML);
 
+
+// Function to copy html-ouput to clipboard
 function copyToClipboard() {
     const htmlOutput = document.getElementById('html-output');
     htmlOutput.select();
