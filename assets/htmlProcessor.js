@@ -194,12 +194,18 @@ function processHTML() {
     document.getElementById('html-output').value = outputHtml;
 }
 
+// Function to copy html-ouput to clipboard
+
 function copyToClipboard() {
     const htmlOutput = document.getElementById('html-output');
     htmlOutput.select();
     htmlOutput.setSelectionRange(0, 99999); // For mobile devices
     document.execCommand('copy');
 }
+
+document.getElementById('copy').addEventListener('click', copyToClipboard);
+
+
 
 function togglePreview() {
     const preview = document.getElementById('preview');
