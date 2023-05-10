@@ -12,25 +12,18 @@
             var parser = new DOMParser();
             var doc = parser.parseFromString(inputHtml, "text/html");
             var anchors = doc.getElementsByTagName("a");
-            var links = [];
-            for (var i = 0; i < anchors.length; i++) {
-                var href = anchors[i].href;
-                if (links.indexOf(href) === -1) {
-                    links.push(href);
-                }
-            }
             var checklist = document.getElementById("checklist");
             checklist.innerHTML = "";
-            for (var i = 0; i < links.length; i++) {
-                var link = links[i];
+            for (var i = 0; i < anchors.length; i++) {
+                var anchor = anchors[i];
                 var li = document.createElement("li");
                 var checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
-                checkbox.value = link;
-                checkbox.id = "link-" + i;
+                checkbox.value = anchor.href;
+                checkbox.id = "anchor-" + i;
                 var label = document.createElement("label");
-                label.htmlFor = "link-" + i;
-                label.appendChild(document.createTextNode(link));
+                label.htmlFor = "anchor-" + i;
+                label.appendChild(document.createTextNode(anchor.innerText));
                 li.appendChild(checkbox);
                 li.appendChild(label);
                 checklist.appendChild(li);
@@ -45,9 +38,8 @@
             var checkedBoxes = document.querySelectorAll("#checklist input[type='checkbox']:checked");
             for (var i = 0; i < anchors.length; i++) {
                 var anchor = anchors[i];
-                var href = anchor.href;
-                var checkbox = document.getElementById("link-" + i);
-                if (checkbox && checkbox.checked) {
+                var checkbox = document.getElementById("anchor-" + i);
+                if (checkbox.checked) {
                     anchor.rel = "nofollow";
                 } else {
                     anchor.rel = "";
@@ -84,6 +76,10 @@
         <label for="updatedHtml">Updated HTML:</label><br>
         <textarea id="updatedHtml" rows="10" cols="50"></textarea><br>
     </main>
+    <script>let str = `This is a string with </div> at the end.</div>        
+                                            `;
+        let newStr = str.replace(/<\/div>\s*$/, "");
+        console.log(newStr); // Output: "This is a string with </div> at the end."</script>
 </body>
 
 </html>

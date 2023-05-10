@@ -45,9 +45,8 @@
             var checkedBoxes = document.querySelectorAll("#checklist input[type='checkbox']:checked");
             for (var i = 0; i < anchors.length; i++) {
                 var anchor = anchors[i];
-                var href = anchor.href;
                 var checkbox = document.getElementById("link-" + i);
-                if (checkbox && checkbox.checked) {
+                if (checkbox.checked) {
                     anchor.rel = "nofollow";
                 } else {
                     anchor.rel = "";
@@ -84,6 +83,10 @@
         <label for="updatedHtml">Updated HTML:</label><br>
         <textarea id="updatedHtml" rows="10" cols="50"></textarea><br>
     </main>
+    <script>let str = `This is a string with </div> at the end.</div>        
+                                            `;
+        let newStr = str.replace(/<\/div>\s*$/, "");
+        console.log(newStr); // Output: "This is a string with </div> at the end."</script>
 </body>
 
 </html>
