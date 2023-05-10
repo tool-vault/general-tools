@@ -1,310 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <script src="assets/htmlProcessor.js" defer></script>
     <title>HTML Processor</title>
-    <style>
-        /* Styles for the app */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 300px;
-            resize: vertical;
-            margin-bottom: 1rem;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            font-size: 1rem;
-            padding: 0.5rem 1rem;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .preview {
-            background-color: white;
-            border: 1px solid #ccc;
-            padding: 1rem;
-            margin-top: 1rem;
-            display: none;
-        }
-
-        .collapsible-btn {
-            background-color: #eee;
-            color: #444;
-            cursor: pointer;
-            padding: 18px;
-            width: 100%;
-            text-align: left;
-            border: none;
-            outline: none;
-            font-size: 16px;
-            transition: 0.4s;
-        }
-
-        .active,
-        .collapsible-btn:hover {
-            background-color: #ccc;
-        }
-
-        .collapsible-content {
-            padding: 0 18px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.2s ease-out;
-        }
-    </style>
 </head>
 
 <body>
+	<nav class="container-fluid">
+		<ul>
+			<li><p>PM Publishing Tools</p></li>
+		</ul>
+		<ul>
+			<li><a href="https://tool-vault.github.io/general-tools/" role="button">Home</a></li>
+			<li><a href="https://tool-vault.github.io/general-tools/html-processor.html" role="button">HTML Processor</a></li>
+			<li><a href="https://tool-vault.github.io/general-tools/dofollow-nofollow-checker.html" role="button">Dofollow Nofollow Checker</a></li>
+			<li><a href="https://tool-vault.github.io/general-tools/playground/playground.html" role="button">Playground</a></li>	
+		</ul>
+	</nav>
     <div class="container">
-        <h1>HTML Processor</h1>
-        <div class="collapsible">
-            <button class="collapsible-btn">What this App Does</button>
-            <div class="collapsible-content">
-                <p>This Processes HTML Code to be Scripps Compliant</p>
-                <ul>
-                    <li>Changes strong tags to b</li>
-                    <li>Change em tags to i</li>
-                    <li>Removes links to images</li>
-                    <li>Adds minified Table and CTA CSS</li>
-                    <li>Adds HTML Module</li>
-                    <li>removes tags wrapping images</li>
-                    <li>Adds Space for CTA</li>
-                    <li>Fix incorrect ending tags for lists</li>
-                    <li>Remove blank hrefs fix</li>
-                    <li>Fix script async and defer conversions</li>
-                    <li>Add HTMLModule to image</li>
-                    <li>Remove starting line indents</li>
-                    <li>Possible Fix for leading empty bullet list</li>
-                </ul>
-            </div>
+        <div>
+            <h1>HTML Processor</h1>
         </div>
-        <br />
-        <button onclick="clearTextareas()">Clear Textareas</button>
-        <br />
-        <br />
-        <script>
-            var coll = document.getElementsByClassName("collapsible-btn");
-            var i;
+        <article>
+            <details>
+                <summary role="button" class="secondary">What this App Does</summary>
+                <small>
+                    <p>This Processes HTML Code to be Scripps Compliant</p>
+                    <ul>
+                        <li>Changes strong tags to b</li>
+                        <li>Change em tags to i</li>
+                        <li>Removes links to images</li>
+                        <li>Adds minified Table and CTA CSS</li>
+                        <li>Adds HTML Module</li>
+                        <li>removes tags wrapping images</li>
+                        <li>Adds Space for CTA</li>
+                        <li>Fix incorrect ending tags for lists</li>
+                        <li>Remove blank hrefs fix</li>
+                        <li>Fix script async and defer conversions</li>
+                        <li>Add HTMLModule to image</li>
+                        <li>Remove starting line indents</li>
+                        <li>Possible Fix for leading empty bullet list</li>
+                        <li>Remove empty lines</li>
+                    </ul>
+                </small>
+            </details>
+        </article>
+        <article>
+            <button onclick="clearTextareas()">Clear Textareas</button>
+            <label for="html-input">HTML Input (Insert HTML Here):</label>
+            <small><textarea id="html-input" rows="10" cols="50"></textarea></small>
+        </article>
+        <article>
+            <details>
+                <summary role="button" onclick="findUrls()">Nofollow/Dofollow Checker (Close/Open to Refresh)</summary>
+                <main class="container">
+                    <div class="grid">
+                        <div>
+                            <h6>NoFollow URLs:</h6>
+                            <small>
+                                <ul id="nofollow-urls"></ul>
+                            </small>
+                        </div>
+                        <div>
+                            <h6>DoFollow URLs:</h6>
+                            <small>
+                                <ul id="dofollow-urls"></ul>
+                            </small>
+                        </div>
+                    </div>
+                </main>
+            </details>
+        </article>
 
-            for (i = 0; i < coll.length; i++) {
-                coll[i].addEventListener("click", function () {
-                    this.classList.toggle("active");
-                    var content = this.nextElementSibling;
-                    if (content.style.maxHeight) {
-                        content.style.maxHeight = null;
-                    } else {
-                        content.style.maxHeight = content.scrollHeight + "px";
-                    }
-                });
-            }
-        </script>
+        <article>
+            <label for="whitelist">Dofollow URLs. These are the dofollow links (one per line):</label>
+            <textarea id="whitelist" rows="10" cols="50"></textarea>
+            <!-- <button id="process" onclick="processHTML()">Process HTML</button> -->
+            <button id="process">Process HTML</button>
+        </article>
 
-        <label for="html-input">HTML Input:</label>
-        <textarea id="html-input"></textarea>
-        <label for="whitelist">Dofollow URLs. These are the dofollow links (one per line):</label>
-        <textarea id="whitelist"></textarea>
-        <br />
-        <button id="process">Process HTML</button>
-        <br />
-        <br />
-        <label for="html-output">HTML Output:</label>
-        <textarea id="html-output" readonly></textarea>
-        <br />
-        <button id="copy">Copy to Clipboard</button>
-        <button id="preview-toggle">Preview</button>
-        <div id="preview" class="preview"></div>
+        <article>
+            <label for="html-output">HTML Output:</label>
+            <textarea id="html-output" rows="10" cols="50" readonly></textarea>
+            <br />
+            <!-- <button id="copy" onclick="copyToClipboard()">Copy to Clipboard</button> -->
+            <button id="copy">Copy to Clipboard</button>
+        </article>
+
+        <article>
+            <details>
+                <summary role="button" id="preview-toggle" onclick="togglePreview()">Preview</summary>
+                <!-- <summary role="button" id="preview-toggle">Preview</summary> -->
+                <!-- <button id="preview-toggle">Preview</button> -->
+                <div id="preview" class="preview"></div>
+            </details>
+        </article>
     </div>
-    <script>
-        // JavaScript for the app
-        document.getElementById('process').addEventListener('click', processHTML);
-        document.getElementById('copy').addEventListener('click', copyToClipboard);
-        document.getElementById('preview-toggle').addEventListener('click', togglePreview);
-
-        function processHTML() {
-            const htmlInput = document.getElementById('html-input').value;
-            const whitelist = document.getElementById('whitelist').value.split('\n');
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlInput, 'text/html');
-
-            // Process anchor tags
-            const anchorTags = doc.querySelectorAll('a');
-            anchorTags.forEach(anchor => {
-                const href = anchor.getAttribute('href');
-                const domain = href.split('/')[2];
-                if (whitelist.includes(href) || whitelist.includes(domain)) {
-                    anchor.setAttribute('rel', 'noopener');
-                } else {
-                    anchor.setAttribute('rel', 'nofollow noopener');
-                }
-                anchor.setAttribute('target', '_blank');
-            });
-
-            // Replace strong with b and em with i
-            const strongTags = doc.querySelectorAll('strong');
-            strongTags.forEach(tag => {
-                const b = doc.createElement('b');
-                b.innerHTML = tag.innerHTML;
-                tag.replaceWith(b);
-            });
-            const emTags = doc.querySelectorAll('em');
-            emTags.forEach(tag => {
-                const i = doc.createElement('i');
-                i.innerHTML = tag.innerHTML;
-                tag.replaceWith(i);
-            });
-
-            // get all anchor elements with blank href attribute
-            const emptyLinks = doc.querySelectorAll('a[href=""]');
-
-            // replace each empty link with its contents
-            emptyLinks.forEach(link => {
-                const parent = link.parentNode;
-                while (link.firstChild) {
-                    parent.insertBefore(link.firstChild, link);
-                }
-                parent.removeChild(link);
-            });
-
-            // function to remove attributes from tags
-            function removeAttributeFromElements(selector, attribute) {
-                const elements = doc.querySelectorAll(`${selector}[${attribute}]`);
-                elements.forEach(element => {
-                    element.removeAttribute(attribute);
-                });
-            }
-
-            // remove the "style" attribute from all <li> and <ul> elements
-            removeAttributeFromElements('li', 'style');
-            removeAttributeFromElements('ul', 'style');
-
-            // // get all the image tags on the page
-            // const images = doc.getElementsByTagName('img');
-
-            // // loop through each image tag
-            // for (let i = 0; i < images.length; i++) {
-            //     const img = images[i];
-
-            //     // get the parent element of the image
-            //     let parent = img.parentNode;
-
-            //     // loop through parent elements until we find one that doesn't wrap the image tag
-            //     while (parent.tagName !== "body" && parent.tagName !== "html" && parent.tagName !== "div" && parent.getElementsByTagName("img").length === 1) {
-            //         img.parentNode.insertBefore(parent.firstChild, parent);
-            //         img.parentNode.removeChild(parent);
-            //         parent = img.parentNode;
-            //     }
-            // }
-            // Additional Post Processing
-            let processedHtml = doc.documentElement.innerHTML
-                .replace(/http:/g, 'https:') // Replace http with https
-                .replace(/<span[^>]*>|<\/span>/g, '') // Remove span tags
-                .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags
-                .replace(/(<div[^>]*?>)/g, '<p>&nbsp;</p>\n$1') // Add spaces in start CTA
-                .replace(/(<\/div>)/g, '$1\n<p>&nbsp;</p>') // Add spaces in end CTA
-                .replace(/<p[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/p>/g, '$1$2$3') // Remove p tags wrapping a and images
-                .replace(/<h\d[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/h\d>/g, '$1$2$3') // Remove heading tags wrapping a and images
-                .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '<div class="HtmlModule">$1$2$3</div>') // wrap div HTMLModule to a and images
-                .replace(/<p[^>]*?>(<iframe[^>]*?>)/g, '$1') // Remove p start tags wrapping iframe
-                .replace(/(<\/iframe[^>]*?>)<\/p>/g, '$1') // Remove p end tags wrapping iframe
-                .replace(/<p[^>]*?>(<script[^>]*?>)/g, '$1') // Remove p start tags wrapping script
-                .replace(/(\/<script[^>]*?>)<\/p>/g, '$1') // Remove p end tags wrapping script
-                .replace(/<<</g, '<&lt;&lt;') // fix <<<
-                .replace(/>>>/g, '>&gt;&gt;') // fix >>>
-                .replace(/='/g, '=\"') // fix beginning single quotes
-                .replace(/'>/g, '\">') // fix end single quotes
-                .replace(/\”/g, '\"') // fix curly quotes 
-                .replace(/<\/ol>\n<ol>/g, '') // fix incorrect oredered list
-                .replace(/<\/ul>\n<ul>/g, '') // fix incorrect unordered list 
-                .replace(/<\/a>(\w)/g, '</a> $1') // fix a and text
-                .replace(/style="list-style-type:disc/g, '</a> $1') // clean bullet list styles
-                .replace(/<\/?br^>]*?>/g, '') // clean br tags
-                .replace(/(async|defer)=""/g, '$1') // fix for async and defer widget
-                .replace(/(<ul>|<ol>)\n(<li>)/g, '$1$2'); // fix for leading empty bullet lists
-
-            // Fixing CTAs
-            // let processedHtml = doc.documentElement.innerHTML
-            //     .replace(/<p>&lt;style&gt;<\/p>/g, '<style>') // 
-            //     .replace(/<p>    &lt;/style&gt;</p>/g, '<style>') // R
-            // <p>&lt;style&gt;</p>
-            // <p>    &lt;/style&gt;</p>
-
-            // Add CSS Styles for CTA and Tables has to be minified"
-            const minifiedCtaCssHtml = `<style>table,td,th{border:1px solid #000;padding:10px;border-collapse:collapse}</style>`;
-            const minifiedTableCssHtml = `<style>div.learn-more-red{margin-top:20px}.learn-more-red a{background-position:left;color:#fff;padding:15px 10px;border:1px #a30100 solid;text-decoration:none;font-family:Noto Serif;background:linear-gradient(to left,#a30100 50%,#be4d4c 50%) right;background-size:200%;font-size:18px;font-weight:500;transition:.5s ease-out}.learn-more-red a:hover{text-decoration:none;font-size:18px;background-position:left;border:1px #b53332 solid;color:#fff;font-weight:500}</style>`
-
-            const finalHtml = `${minifiedCtaCssHtml}\n${minifiedTableCssHtml}` + processedHtml;
-
-            // Wrap final HTML inside a div with the class "HtmlModule"
-            //const outputHtml = `<div class="HtmlModule">\n<div class="HtmlModule">\n${finalHtml}\n</div>\n</div>`;
-            let outputHtml = `<div class="HtmlModule">\n${finalHtml}\n</div>`;
-            
-            // Remove indents and empty lines
-            outputHtml = outputHtml
-                .replace(/^\s+/gm, '')
-                .replace(/^\s*[\r\n]/gm, '');
-
-            // Display the output HTML in the readonly textarea
-            document.getElementById('html-output').value = outputHtml;
-        }
-
-        function copyToClipboard() {
-            const htmlOutput = document.getElementById('html-output');
-            htmlOutput.select();
-            htmlOutput.setSelectionRange(0, 99999); // For mobile devices
-            document.execCommand('copy');
-        }
-
-        function togglePreview() {
-            const preview = document.getElementById('preview');
-            if (preview.style.display === 'none') {
-                preview.innerHTML = document.getElementById('html-output').value;
-                preview.style.display = 'block';
-            } else {
-                preview.innerHTML = '';
-                preview.style.display = 'none';
-            }
-        }
-
-        function clearTextareas() {
-            // Get all textareas in the page
-            var textareas = document.querySelectorAll("textarea");
-
-            // Clear the value of each textarea
-            for (var i = 0; i < textareas.length; i++) {
-                textareas[i].value = "";
-            }
-        }
-    </script>
 
 </body>
 
