@@ -228,12 +228,7 @@ function copyToClipboard() {
     }, 3000);
 }
 
-
-
-
-// document.getElementById('copy').addEventListener('click', copyToClipboard);
-
-
+// Function to toggle Preview
 
 function togglePreview() {
     const preview = document.getElementById('preview');
