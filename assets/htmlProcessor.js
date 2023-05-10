@@ -209,6 +209,27 @@ function copyToClipboard() {
     document.execCommand('copy');
 }
 
+// Add notification alert
+const alert = document.createElement('div');
+alert.textContent = 'Copied to clipboard!';
+alert.style.position = 'fixed';
+alert.style.top = '0';
+alert.style.left = '50%';
+alert.style.transform = 'translate(-50%, 0)';
+alert.style.backgroundColor = 'green';
+alert.style.color = 'white';
+alert.style.padding = '10px';
+alert.style.borderRadius = '5px';
+alert.style.zIndex = '9999';
+document.body.appendChild(alert);
+
+// Remove notification alert after 5 seconds
+setTimeout(function () {
+    alert.parentNode.removeChild(alert);
+}, 5000);
+}
+
+document.getElementById('copy').addEventListener('click', copyToClipboard);
 // document.getElementById('copy').addEventListener('click', copyToClipboard);
 
 
