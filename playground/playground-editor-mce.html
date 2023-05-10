@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <title>Anchor Tag Checker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <script src="path/to/tinymce/tinymce.min.js"></script>
+    <link href="path/to/tinymce/skins/ui/oxide/skin.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="container-fluid">
+        <ul>
+            <li>
+                <p>PM Publishing Tools</p>
+            </li>
+        </ul>
+        <ul>
+            <li><a href="https://tool-vault.github.io/general-tools/" role="button">Home</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/html-processor.html" role="button">HTML Processor</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/dofollow-nofollow-checker.html" role="button">Dofollow Nofollow Checker</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/url-slug-generator.html" role="button">URL Slug Generator</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/playground/playground.html" role="button">Playground</a></li>
+        </ul>
+    </nav>
+    <main class="container">
+        <article>
+            <textarea id="mytextarea"></textarea>
+
+        </article>
+    </main>
+    <script>
+        tinymce.init({
+            selector: '#mytextarea'
+        });
+    </script>
+</body>
+
+</html>
