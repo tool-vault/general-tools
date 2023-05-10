@@ -143,8 +143,11 @@ function processHTML() {
         .replace(/http:/g, 'https:') // Replace http with https
         .replace(/<span[^>]*>|<\/span>/g, '') // Remove span tags
         .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags
-        .replace(/(<div[^>]*?>)/g, '<p>&nbsp;</p>\n$1') // Add spaces in start CTA
-        .replace(/(<\/div>)/g, '$1\n<p>&nbsp;</p>') // Add spaces in end CTA
+        .replace(/(<p>&nbsp;<\/p>(\s|\n)*<p>&nbsp;<\/p>)+/g, '<p>&nbsp;</p>') // remove duplicate custom breaks
+        .replace(/(<div class="HtmlModule">)+/g, '<div class="HtmlModule">') // remove duplicate modules
+        .replace(/(<\/div>)+/g, '</div>') // remove duplicate divs
+        .replace(/(<div[^>]*?>)/g, '<p>&nbsp;</p>\n$1') // Add spaces in start CTA (should be before adding hmtlmodule to images)
+        .replace(/(<\/div>)/g, '$1\n<p>&nbsp;</p>') // Add spaces in end CTA (should be before adding hmtlmodule to images)
         .replace(/<p[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/p>/g, '$1$2$3') // Remove p tags wrapping a and images
         .replace(/<h\d[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/h\d>/g, '$1$2$3') // Remove heading tags wrapping a and images
         .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '<div class="HtmlModule">$1$2$3</div>') // wrap div HTMLModule to a and images
