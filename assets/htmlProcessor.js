@@ -139,7 +139,9 @@ function processHTML() {
     // Additional Post Processing
     let processedHtml = doc.documentElement.innerHTML
         .replace(/<div class="HtmlModule">\n<style>table,td,th{border:1px solid #000;padding:10px;border-collapse:collapse}<\/style>\n<style>div.learn-more-red{margin-top:20px}.learn-more-red a{background-position:left;color:#fff;padding:15px 10px;border:1px #a30100 solid;text-decoration:none;font-family:Noto Serif;background:linear-gradient\(to left,#a30100 50%,#be4d4c 50%\) right;background-size:200%;font-size:18px;font-weight:500;transition:.5s ease-out}.learn-more-red a:hover{text-decoration:none;font-size:18px;background-position:left;border:1px #b53332 solid;color:#fff;font-weight:500}<\/style>/g, '') // Check for previous processing
-        .replace(/<\/div>$/g, '') // Replace http with https
+        .replace(/<\/div>(\s|\n)*$/g, '') // Replace http with https
+        .replace(/(<div class="HtmlModule">)+/g, '<div class="HtmlModule">') // remove duplicate modules
+        .replace(/(<\/div>)+/g, '</div>') // remove duplicate divs
         .replace(/http:/g, 'https:') // Replace http with https
         .replace(/<span[^>]*>|<\/span>/g, '') // Remove span tags
         .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags
@@ -163,9 +165,8 @@ function processHTML() {
         .replace(/style="list-style-type:disc/g, '</a> $1') // clean bullet list styles
         .replace(/<\/?br^>]*?>/g, '') // clean br tags
         .replace(/(async|defer)=""/g, '$1') // fix for async and defer widget
-        .replace(/(<ul>|<ol>)\n(<li>)/g, '$1$2') // fix for leading empty bullet lists
-        .replace(/(<div class="HtmlModule">)+/g, '<div class="HtmlModule">') // remove duplicate modules
-        .replace(/(<\/div>)+/g, '</div>'); // remove duplicate divs
+        .replace(/(<ul>|<ol>)\n(<li>)/g, '$1$2'); // fix for leading empty bullet lists
+        
 
     // Fixing CTAs
     // let processedHtml = doc.documentElement.innerHTML
