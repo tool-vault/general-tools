@@ -11,7 +11,6 @@
 
 <body>
     <nav class="container-fluid">
-        <section>
             <ul>
                 <li>
                     <p>PM Simple Tools</p>
@@ -25,7 +24,6 @@
                 <li><a href="https://tool-vault.github.io/general-tools/nofollow-test.html">No Follow - Testing</a></li>
                 <!-- <li><button class="contrast switcher theme-switcher" aria-label="Turn on dark mode"><i>Turn on dark mode</i></button></li> -->
             </ul>
-        </section>
     </nav>
     <div class="container">
         <div>
@@ -81,16 +79,20 @@
                 </main>
             </details>
         </article>
+
+        <article>
         <label for="whitelist">Dofollow URLs. These are the dofollow links (one per line):</label>
         <textarea id="whitelist" rows="10" cols="50"></textarea>
-        <br />
         <button id="process">Process HTML</button>
-        <br />
-        <br />
+        </article>
+
+        <article>
         <label for="html-output">HTML Output:</label>
         <textarea id="html-output" rows="10" cols="50" readonly></textarea>
         <br />
         <button id="copy">Copy to Clipboard</button>
+        </article>
+
         <article>
         <details>
         <summary role="button" id="preview-toggle" onclick="togglePreview()">Preview</summary>
