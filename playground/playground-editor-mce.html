@@ -6,8 +6,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <script src="path/to/tinymce/tinymce.min.js"></script>
+    <!-- <script src="path/to/tinymce/tinymce.min.js"></script> -->
     <link href="path/to/tinymce/skins/ui/oxide/skin.min.css" rel="stylesheet">
+    <script src="https://cdn.tiny.cloud/1/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <style>
+        #editor-container {
+            display: flex;
+        }
+
+        #editor {
+            flex: 1;
+        }
+
+        #preview {
+            flex: 1;
+            margin-left: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -27,15 +42,31 @@
     </nav>
     <main class="container">
         <article>
-            <textarea id="mytextarea"></textarea>
+            <div id="editor-container">
+                <div id="editor"></div>
+                <div id="preview"></div>
+            </div>
 
+            <script>
+                tinymce.init({
+                    selector: '#editor',
+                    plugins: 'preview',
+                    toolbar: 'undo redo | bold italic underline | preview',
+                    height: 400,
+                    setup: function (editor) {
+                        editor.on('change', function () {
+                            updatePreview(editor.getContent());
+                        });
+                    }
+                });
+
+                function updatePreview(content) {
+                    var preview = document.getElementById('preview');
+                    preview.innerHTML = content;
+                }
+            </script>
         </article>
     </main>
-    <script>
-        tinymce.init({
-            selector: '#mytextarea'
-        });
-    </script>
 </body>
 
 </html>
