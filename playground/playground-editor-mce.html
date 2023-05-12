@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <!-- <script src="path/to/tinymce/tinymce.min.js"></script> -->
     <link href="path/to/tinymce/skins/ui/oxide/skin.min.css" rel="stylesheet">
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/3crc5qtn178b6c1s3xoyl4zfci0ir6zuco0jeg6zl0rp4ali/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <style>
         #editor-container {
             display: flex;
@@ -40,18 +40,19 @@
             <li><a href="https://tool-vault.github.io/general-tools/playground/playground.html" role="button">Playground</a></li>
         </ul>
     </nav>
-    <main class="container">
+    <main class="container-fluid">
         <article>
-            <div id="editor-container">
-                <div id="editor"></div>
+            <div class="grid" id="editor-container">
+                <div id="rich-text-editor"></div>
                 <div id="preview"></div>
             </div>
 
             <script>
                 tinymce.init({
-                    selector: '#editor',
-                    plugins: 'preview',
-                    toolbar: 'undo redo | bold italic underline | preview',
+                    selector: '#rich-text-editor',
+                    plugins: 'preview link lists image media table code paste',
+                    // toolbar: 'undo redo | bold italic underline | preview',
+                    toolbar: 'paste code | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
                     height: 400,
                     setup: function (editor) {
                         editor.on('change', function () {
