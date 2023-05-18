@@ -139,6 +139,7 @@ function processHTML() {
     let processedHtml = doc.documentElement.innerHTML
         .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags (should be first to prevent issues targetting)
         .replace(/<div class="HtmlModule">\n<style>table,td,th{border:1px solid #000;padding:10px;border-collapse:collapse}<\/style>\n<style>div.learn-more-red{margin-top:20px}.learn-more-red a{background-position:left;color:#fff;padding:15px 10px;border:1px #a30100 solid;text-decoration:none;font-family:Noto Serif;background:linear-gradient\(to left,#a30100 50%,#be4d4c 50%\) right;background-size:200%;font-size:18px;font-weight:500;transition:.5s ease-out}.learn-more-red a:hover{text-decoration:none;font-size:18px;background-position:left;border:1px #b53332 solid;color:#fff;font-weight:500}<\/style>/g, '') // Check for previous processing
+        .replace(/<style>(\s)*?div.learn-more-red{(\s)*?margin-top: 20px;(\s)*?}(\s)*?.learn-more-red a{(\s)*?background-position: left;(\s)*?color: #fff;(\s)*?padding: 15px 10px;(\s)*?border: 1px #A30100 solid;(\s)*?text-decoration: none;(\s)*?font-family: Noto Serif;(\s)*?background: linear-gradient\(to left, #A30100 50%, #BE4D4C 50%\) right;(\s)*?background-size: 200%;(\s)*?font-size: 18px;(\s)*?font-weight: 500;(\s)*?transition: .5s ease-out;(\s)*?}(\s)*?.learn-more-red a:hover{(\s)*?text-decoration: none;(\s)*?font-size: 18px;(\s)*?background-position: left;(\s)*?border: 1px #B53332 solid;(\s)*?color: #fff;(\s)*?font-weight: 500;(\s)*?}(\s)*?<\/style>/g, '') // Remove inline CTA in articles
         .replace(/<\/div>(\s|\n)*$/g, '') // Replace remove end div
         .replace(/http:/g, 'https:') // Replace http with https
         .replace(/<span[^>]*>|<\/span>/g, '') // Remove span tags
@@ -186,7 +187,7 @@ function processHTML() {
     const endModule = '</div>'
     const completeSet = `${startModule}\n${minifiedCtaCssHtml}\n${minifiedTableCssHtml}`
 
-    const finalHtml = `${minifiedCtaCssHtml}\n${minifiedTableCssHtml}` + processedHtml;
+    const finalHtml = `${minifiedCtaCssHtml}\n${minifiedTableCssHtml}\n` + processedHtml;
 
     // Wrap final HTML inside a div with the class "HtmlModule"
     //const outputHtml = `<div class="HtmlModule">\n<div class="HtmlModule">\n${finalHtml}\n</div>\n</div>`;
