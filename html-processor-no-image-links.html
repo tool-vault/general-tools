@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <script src="assets/htmlProcessor-no-image-links.js" defer></script>
+    <title>HTML Processor</title>
+</head>
+
+<body>
+	<nav class="container-fluid">
+		<ul>
+			<li><p>PM Publishing Tools</p></li>
+		</ul>
+		<ul>
+			<li><a href="https://tool-vault.github.io/general-tools/" role="button">Home</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/html-processor.html" role="button">HTML Processor</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/html-processor-no-image-links.html" role="button">HTML Processor</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/dofollow-nofollow-checker.html" role="button">Dofollow Nofollow Checker</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/url-slug-generator.html" role="button">URL Slug Generator</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/playground/playground.html" role="button">Playground</a></li>
+		</ul>
+	</nav>
+    <div class="container">
+        <div>
+            <h1>HTML Processor (for WTVR)</h1>
+        </div>
+        <article>
+            <details>
+                <summary role="button" class="secondary">What this App Does</summary>
+                <small>
+                    <p>This Processes HTML Code to be Scripps Compliant</p>
+                    <ul>
+                        <li>Changes strong tags to b</li>
+                        <li>Change em tags to i</li>
+                        <li>Removes links to images</li>
+                        <li>Adds minified Table and CTA CSS</li>
+                        <li>Adds HTML Module</li>
+                        <li>removes tags wrapping images</li>
+                        <li>Adds Space for CTA</li>
+                        <li>Fix incorrect ending tags for lists</li>
+                        <li>Remove blank hrefs fix</li>
+                        <li>Fix script async and defer conversions</li>
+                        <li>Add HTMLModule to image</li>
+                        <li>Remove starting line indents</li>
+                        <li>Possible Fix for leading empty bullet list</li>
+                        <li>Remove empty lines</li>
+                    </ul>
+                </small>
+            </details>
+        </article>
+        <article>
+            <button onclick="clearTextareas()">Clear Textareas</button>
+            <label for="html-input">HTML Input (Insert HTML Here):</label>
+            <small><textarea id="html-input" rows="10" cols="50"></textarea></small>
+        </article>
+        <article>
+            <details>
+                <summary role="button" onclick="findUrls()">Nofollow/Dofollow Checker (Close/Open to Refresh)</summary>
+                <main class="container">
+                    <div class="grid">
+                        <div>
+                            <h6>NoFollow URLs:</h6>
+                            <small>
+                                <ul id="nofollow-urls"></ul>
+                            </small>
+                        </div>
+                        <div>
+                            <h6>DoFollow URLs:</h6>
+                            <small>
+                                <ul id="dofollow-urls"></ul>
+                            </small>
+                        </div>
+                    </div>
+                </main>
+            </details>
+        </article>
+
+        <article>
+            <label for="whitelist">Dofollow URLs. These are the dofollow links (one per line):</label>
+            <textarea id="whitelist" rows="10" cols="50"></textarea>
+            <!-- <button id="process" onclick="processHTML()">Process HTML</button> -->
+            <button id="process">Process HTML</button>
+        </article>
+
+        <article>
+            <label for="html-output">HTML Output:</label>
+            <textarea id="html-output" rows="10" cols="50" readonly></textarea>
+            <br />
+            <!-- <button id="copy" onclick="copyToClipboard()">Copy to Clipboard</button> -->
+            <button id="copy">Copy to Clipboard</button>
+        </article>
+
+        <article>
+            <details>
+                <summary role="button" id="preview-toggle" onclick="togglePreview()">Preview (Close/Open to Refresh)</summary>
+                <!-- <summary role="button" id="preview-toggle">Preview</summary> -->
+                <!-- <button id="preview-toggle">Preview</button> -->
+                <div id="preview" class="preview"></div>
+            </details>
+        </article>
+    </div>
+
+</body>
+
+</html>
