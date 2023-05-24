@@ -143,7 +143,17 @@ function processHTML() {
         .replace(/<\/div>(\s|\n)*$/g, '') // Replace remove end div
         .replace(/http:/g, 'https:') // Replace http with https
         .replace(/<span[^>]*>|<\/span>/g, '') // Remove span tags
-        .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags
+
+        // // Cleaning code inside converted Doc
+        // .replace(/<p>(&nbsp;)*?&lt;(\/)?style&gt;<\/p>/g, '<$2style>') // Normalize CTA style tags
+        // .replace(/<style.*?<\/style>/gs, '') // Remove CTA style tags
+        // .replace(/<p>(&nbsp;)*?&lt;div\s*(class="learn-more-red")?&gt;<\/p>/g, '<div class="learn-more-red">') // Normalize CTA div start tags
+        // .replace(/<p>(&nbsp;)*?&lt;\/div&gt;<\/p>/g, '/div>') // Normalize CTA div end tags
+        // .replace(/<p>(&nbsp;)*?&lt;a\s*?href="([^"]*?)"&gt;/g, '<a href="$2">') // Normalize CTA div a begin tags
+        // .replace(/&lt;\/a&gt;<\/p>/g, '</a>') // Normalize CTA div a end tags
+
+        // Extra Post Processing
+        .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags (rechecking)
         .replace(/(<p>&nbsp;<\/p>(\s|\n)*<p>&nbsp;<\/p>)+/g, '<p>&nbsp;</p>') // remove duplicate custom breaks
         .replace(/(<div class="HtmlModule">)+/g, '<div class="HtmlModule">') // remove duplicate modules
         .replace(/(<\/div>)+/g, '</div>') // remove duplicate divs
