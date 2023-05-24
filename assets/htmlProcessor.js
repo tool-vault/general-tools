@@ -144,13 +144,25 @@ function processHTML() {
         .replace(/http:/g, 'https:') // Replace http with https
         .replace(/<span[^>]*>|<\/span>/g, '') // Remove span tags
 
-        // // Cleaning code inside converted Doc
-        // .replace(/<p>(&nbsp;)*?&lt;(\/)?style&gt;<\/p>/g, '<$2style>') // Normalize CTA style tags
-        // .replace(/<style.*?<\/style>/gs, '') // Remove CTA style tags
-        // .replace(/<p>(&nbsp;)*?&lt;div\s*(class="learn-more-red")?&gt;<\/p>/g, '<div class="learn-more-red">') // Normalize CTA div start tags
-        // .replace(/<p>(&nbsp;)*?&lt;\/div&gt;<\/p>/g, '/div>') // Normalize CTA div end tags
-        // .replace(/<p>(&nbsp;)*?&lt;a\s*?href="([^"]*?)"&gt;/g, '<a href="$2">') // Normalize CTA div a begin tags
-        // .replace(/&lt;\/a&gt;<\/p>/g, '</a>') // Normalize CTA div a end tags
+    // // Cleaning code inside converted Doc
+    // .replace(/<p>(&nbsp;)*?&lt;(\/)?style&gt;<\/p>/g, '<$2style>') // Normalize CTA style tags
+    // .replace(/<style.*?<\/style>/gs, '') // Remove CTA style tags
+    // .replace(/<p>(&nbsp;)*?&lt;div\s*(class="learn-more-red")?&gt;<\/p>/g, '<div class="learn-more-red">') // Normalize CTA div start tags
+    // .replace(/<p>(&nbsp;)*?&lt;\/div&gt;<\/p>/g, '/div>') // Normalize CTA div end tags
+    // .replace(/<p>(&nbsp;)*?&lt;a\s*?href="([^"]*?)"&gt;/g, '<a href="$2">') // Normalize CTA div a begin tags
+    // .replace(/&lt;\/a&gt;<\/p>/g, '</a>') // Normalize CTA div a end tags
+
+    // // Test code for targeting div but bug with dom parser
+    // let divs = doc.querySelectorAll('div');
+
+    // divs.forEach(div => {
+    //     div.innerHTML = div.innerHTML.replace(/<p>/g, '')
+    //         .replace(/<\/p>/g, '')
+    //         .replace(/&nbsp;/g, '')
+    //         .replace(/&lt;/g, '<')
+    //         .replace(/&gt;/g, '>');
+    // });
+
 
         // Extra Post Processing
         .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags (rechecking)
