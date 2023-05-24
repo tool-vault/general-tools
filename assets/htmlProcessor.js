@@ -165,7 +165,8 @@ function processHTML() {
         .replace(/<\/ol>\n<ol>/g, '') // fix incorrect oredered list
         .replace(/<\/ul>\n<ul>/g, '') // fix incorrect unordered list 
         .replace(/<\/a>(\w)/g, '</a> $1') // fix a and text
-        .replace(/style="list-style-type:disc/g, '</a> $1') // clean bullet list styles
+        .replace(/style="list-style-type:\s*?disc;?"/g, '') // clean bullet list styles
+        .replace(/style="text-align:\s*?justify;?"/g, '') // clean justify styles
         .replace(/<\/?br^>]*?>/g, '') // clean br tags
         .replace(/(async|defer)=""/g, '$1') // fix for async and defer widget
         .replace(/(<ul>|<ol>)\n(<li>)/g, '$1$2') // fix for leading empty bullet lists
