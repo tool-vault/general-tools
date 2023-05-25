@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <title>Image to HTML</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+</head>
+
+<body>
+    <nav class="container-fluid">
+        <ul>
+            <li>
+                <p>PM Publishing Tools</p>
+            </li>
+        </ul>
+        <ul>
+            <li><a href="https://tool-vault.github.io/general-tools/" role="button">Home</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/html-processor.html" role="button">HTML Processor</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/dofollow-nofollow-checker.html" role="button">Dofollow Nofollow Checker</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/url-slug-generator.html" role="button">URL Slug Generator</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/playground/playground.html" role="button">Playground</a></li>
+        </ul>
+    </nav>
+    <main class="container">
+        <article>
+            <h1>Image to HTML</h1>
+            <form id="imgForm">
+                <div id="inputGroup">
+                    <div class="inputField">
+                        <label>Image URL:</label>
+                        <input type="url" class="imgURL" required>
+                        <label>Alt Tag:</label>
+                        <input type="text" class="altTag">
+                        <label>Href Link:</label>
+                        <input type="url" class="hrefLink">
+                        <button type="button" onclick="removeInputField(this)">Remove</button>
+                        <hr>
+                    </div>
+                </div>
+                <button type="button" onclick="addInputField()">Add more images</button><br>
+                <input type="submit" value="Generate Thumbnails">
+            </form>
+
+            <div id="notification" style="display: none; color: green;"></div>
+
+            <table id="outputTable">
+                <thead>
+                    <tr>
+                        <th>Thumbnail</th>
+                        <th>Code</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- rows will be added here dynamically -->
+                </tbody>
+            </table>
+        </article>
+    </main>
+
+    <script>
+        function addInputField() {
+  var inputGroup = document.getElementById('inputGroup');
+  var newField = document.querySelector('.inputField').cloneNode(true);
+  inputGroup.appendChild(newField);
+}
+
+function removeInputField(button) {
+  button.parentElement.remove();
+}
+
+function showNotification(message) {
+  var notification = document.getElementById('notification');
+  notification.textContent = message;
+  notification.style.display = 'block';
+  setTimeout(function() {
+    notification.style.display = 'none';
+  }, 2000);
+}
+
+document.getElementById('imgForm').addEventListener('submit', function(event) {
+  // Prevent the form from being submitted to a server
+  event.preventDefault();
+
+  var imgURLs = document.querySelectorAll('.imgURL');
+  var altTags = document.querySelectorAll('.altTag');
+  var hrefLinks = document.querySelectorAll('.hrefLink');
+
+  var outputTableBody = document.getElementById('outputTable').querySelector('tbody');
+  outputTableBody.innerHTML = '';
+
+  for (var i = 0; i < imgURLs.length; i++) {
+    var imgURL = imgURLs[i].value;
+    var altTag = altTags[i].value;
+    var hrefLink = hrefLinks[i].value;
+
+    var htmlString = '';
+
+    if (hrefLink) {
+      htmlString += '<a href="' + hrefLink + '">';
+    }
+
+    htmlString += '<img src="' + imgURL + '"';
+
+    if (altTag) {
+      htmlString += ' alt="' + altTag + '"';
+    }
+
+    htmlString += '>';
+
+    if (hrefLink) {
+      htmlString += '</a>';
+    }
+
+    var newRow = outputTableBody.insertRow();
+
+    var newCell = newRow.insertCell();
+    var newImg = document.createElement('img');
+    newImg.src = imgURL;
+    newImg.style.width = '100px';
+    newImg.style.height = '100px';
+    newCell.appendChild(newImg);
+
+    newCell = newRow.insertCell();
+    newCell.textContent = htmlString;
+
+    newCell = newRow.insertCell();
+    var newButton = document.createElement('button');
+    newButton.textContent = 'Copy Code';
+    newButton.onclick = function() {
+      copyToClipboard(this.parentElement.previousSibling.textContent);
+      showNotification('Copied to clipboard!');
+    }
+    newCell.appendChild(newButton);
+  }
+});
+
+function copyToClipboard(text) {
+  var textarea = document.createElement('textarea');
+  textarea.textContent = text;
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+  } catch (ex) {
+    console.warn('Copy to clipboard failed.', ex);
+    return false;
+  } finally {
+    // Cleanup: remove temporary textarea
+    document.body.removeChild(textarea);
+  }
+}
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <title>Image to HTML</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <style>
+        .container-80 {
+            width: 80%;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="container-fluid">
+        <ul>
+            <li>
+                <p>PM Publishing Tools</p>
+            </li>
+        </ul>
+        <ul>
+            <li><a href="https://tool-vault.github.io/general-tools/" role="button">Home</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/html-processor.html" role="button">HTML Processor</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/dofollow-nofollow-checker.html" role="button">Dofollow Nofollow Checker</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/url-slug-generator.html" role="button">URL Slug Generator</a></li>
+            <li><a href="https://tool-vault.github.io/general-tools/playground/playground.html" role="button">Playground</a></li>
+        </ul>
+    </nav>
+    <main class="container-80">
+        <article>
+            <form id="imgForm">
+                <label>Image URLs (one per line):</label>
+                <textarea id="imgURLs" rows="10" required></textarea><br>
+                <input type="submit" value="Process">
+            </form>
+
+            <div id="notification" style="display: none; position: fixed; bottom: 20px; right: 20px; background-color: lightgreen; padding: 10px;">
+                <p id="notificationText"></p>
+            </div>
+
+            <table id="outputTable">
+                <thead>
+                    <tr>
+                        <th>Thumbnail</th>
+                        <th>Alt Tag</th>
+                        <th>Href Link</th>
+                        <th>Code</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- rows will be added here dynamically -->
+                </tbody>
+            </table>
+        </article>
+    </main>
+
+    <script>
+        function showNotification(message) {
+            var notification = document.getElementById('notification');
+            var notificationText = document.getElementById('notificationText');
+            notificationText.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(function () {
+                notification.style.display = 'none';
+            }, 2000);
+        }
+
+        document.getElementById('imgForm').addEventListener('submit', function (event) {
+            // Prevent the form from being submitted to a server
+            event.preventDefault();
+
+            var imgURLs = document.getElementById('imgURLs').value.split('\n');
+
+            var outputTableBody = document.getElementById('outputTable').querySelector('tbody');
+            outputTableBody.innerHTML = '';
+
+            for (var i = 0; i < imgURLs.length; i++) {
+                var imgURL = imgURLs[i];
+
+                var newRow = outputTableBody.insertRow();
+
+                var newCell = newRow.insertCell();
+                var newImg = document.createElement('img');
+                newImg.src = imgURL;
+                newImg.style.width = '100px';
+                newImg.style.height = '100px';
+                newCell.appendChild(newImg);
+
+                newCell = newRow.insertCell();
+                var altInput = document.createElement('input');
+                altInput.type = 'text';
+                altInput.className = 'altTag';
+                altInput.oninput = updateCode;
+                newCell.appendChild(altInput);
+
+                newCell = newRow.insertCell();
+                var hrefInput = document.createElement('input');
+                hrefInput.type = 'text';
+                hrefInput.className = 'hrefLink';
+                hrefInput.oninput = updateCode;
+                newCell.appendChild(hrefInput);
+
+                newCell = newRow.insertCell();
+                newCell.className = 'codeCell';
+
+                newCell = newRow.insertCell();
+                var newButton = document.createElement('button');
+                newButton.textContent = 'Copy Code';
+                newButton.onclick = function () {
+                    copyToClipboard(this.parentElement.previousSibling.textContent);
+                    showNotification('Copied to clipboard!');
+                }
+                newCell.appendChild(newButton);
+
+                updateCode.call(altInput);
+            }
+        });
+
+        function updateCode() {
+            var row = this.parentElement.parentElement;
+            var imgURL = row.querySelector('img').src;
+            var altTag = row.querySelector('.altTag').value;
+            var hrefLink = row.querySelector('.hrefLink').value;
+
+            var htmlString = '';
+
+            if (hrefLink) {
+                htmlString += '<a href="' + hrefLink + '">';
+            }
+
+            htmlString += '<img src="' + imgURL + '"';
+
+            if (altTag) {
+                htmlString += ' alt="' + altTag + '"';
+            }
+
+            htmlString += '>';
+
+            if (hrefLink) {
+                htmlString += '</a>';
+            }
+
+            row.querySelector('.codeCell').textContent = htmlString;
+        }
+
+        function copyToClipboard(text) {
+            var textarea = document.createElement('textarea');
+            textarea.textContent = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+            } catch (ex) {
+                console.warn('Copy to clipboard failed.', ex);
+                return false;
+            } finally {
+                // Cleanup: remove temporary textarea
+                document.body.removeChild(textarea);
+            }
+        }
+    </script>
+</body>
+
+</html>
