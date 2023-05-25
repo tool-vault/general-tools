@@ -195,7 +195,7 @@ function processHTML() {
         .replace(/(<p>&nbsp;<\/p>(\s|\n)*<p>&nbsp;<\/p>)+/g, '<p>&nbsp;</p>') // remove duplicate custom breaks
         .replace(/(<div class="HtmlModule">)+/g, '<div class="HtmlModule">') // remove duplicate modules
         .replace(/(<\/div>)+/g, '</div>') // remove duplicate divs
-        .replace(/alt=[\"\'][\"\']/g, ''); // remove empty img alt
+        // .replace(/alt=[\"\'][\"\']/g, ''); // remove empty img alt
 
 
     // Fixing CTAs
