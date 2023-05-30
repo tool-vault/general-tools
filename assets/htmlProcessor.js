@@ -144,24 +144,24 @@ function processHTML() {
         .replace(/http:/g, 'https:') // Replace http with https
         .replace(/<span[^>]*>|<\/span>/g, '') // Remove span tags
 
-    // // Cleaning code inside converted Doc
-    // .replace(/<p>(&nbsp;)*?&lt;(\/)?style&gt;<\/p>/g, '<$2style>') // Normalize CTA style tags
-    // .replace(/<style.*?<\/style>/gs, '') // Remove CTA style tags
-    // .replace(/<p>(&nbsp;)*?&lt;div\s*(class="learn-more-red")?&gt;<\/p>/g, '<div class="learn-more-red">') // Normalize CTA div start tags
-    // .replace(/<p>(&nbsp;)*?&lt;\/div&gt;<\/p>/g, '/div>') // Normalize CTA div end tags
-    // .replace(/<p>(&nbsp;)*?&lt;a\s*?href="([^"]*?)"&gt;/g, '<a href="$2">') // Normalize CTA div a begin tags
-    // .replace(/&lt;\/a&gt;<\/p>/g, '</a>') // Normalize CTA div a end tags
+        // // Cleaning code inside converted Doc
+        // .replace(/<p>(&nbsp;)*?&lt;(\/)?style&gt;<\/p>/g, '<$2style>') // Normalize CTA style tags
+        // .replace(/<style.*?<\/style>/gs, '') // Remove CTA style tags
+        // .replace(/<p>(&nbsp;)*?&lt;div\s*(class="learn-more-red")?&gt;<\/p>/g, '<div class="learn-more-red">') // Normalize CTA div start tags
+        // .replace(/<p>(&nbsp;)*?&lt;\/div&gt;<\/p>/g, '/div>') // Normalize CTA div end tags
+        // .replace(/<p>(&nbsp;)*?&lt;a\s*?href="([^"]*?)"&gt;/g, '<a href="$2">') // Normalize CTA div a begin tags
+        // .replace(/&lt;\/a&gt;<\/p>/g, '</a>') // Normalize CTA div a end tags
 
-    // // Test code for targeting div but bug with dom parser
-    // let divs = doc.querySelectorAll('div');
+        // // Test code for targeting div but bug with dom parser
+        // let divs = doc.querySelectorAll('div');
 
-    // divs.forEach(div => {
-    //     div.innerHTML = div.innerHTML.replace(/<p>/g, '')
-    //         .replace(/<\/p>/g, '')
-    //         .replace(/&nbsp;/g, '')
-    //         .replace(/&lt;/g, '<')
-    //         .replace(/&gt;/g, '>');
-    // });
+        // divs.forEach(div => {
+        //     div.innerHTML = div.innerHTML.replace(/<p>/g, '')
+        //         .replace(/<\/p>/g, '')
+        //         .replace(/&nbsp;/g, '')
+        //         .replace(/&lt;/g, '<')
+        //         .replace(/&gt;/g, '>');
+        // });
 
 
         // Extra Post Processing
@@ -195,7 +195,7 @@ function processHTML() {
         .replace(/(<p>&nbsp;<\/p>(\s|\n)*<p>&nbsp;<\/p>)+/g, '<p>&nbsp;</p>') // remove duplicate custom breaks
         .replace(/(<div class="HtmlModule">)+/g, '<div class="HtmlModule">') // remove duplicate modules
         .replace(/(<\/div>)+/g, '</div>') // remove duplicate divs
-        // .replace(/alt=[\"\'][\"\']/g, ''); // remove empty img alt
+    // .replace(/alt=[\"\'][\"\']/g, ''); // remove empty img alt
 
 
     // Fixing CTAs
@@ -280,4 +280,24 @@ function clearTextareas() {
     for (var i = 0; i < textareas.length; i++) {
         textareas[i].value = "";
     }
+}
+
+//Get the button
+var mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function () { scrollFunction() };
+
+function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+    } else {
+        mybutton.style.display = "none";
+    }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
