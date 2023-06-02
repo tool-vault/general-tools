@@ -118,22 +118,22 @@ function processHTML() {
     removeAttributeFromElements('li', 'style');
     removeAttributeFromElements('ul', 'style');
 
-    // checkbox option for removing a tags wrapping images
-    if (checkBox.checked == true) {
-        let parser = new DOMParser();
-        let doc = parser.parseFromString(html, 'text/html');
+    // // checkbox option for removing a tags wrapping images
+    // if (checkBox.checked == true) {
+    //     let parser = new DOMParser();
+    //     let doc = parser.parseFromString(html, 'text/html');
 
-        // Get all the a tags in the document.
-        let aTags = doc.getElementsByTagName('a');
-        for (let i = aTags.length - 1; i >= 0; i--) {
-            let aTag = aTags[i];
+    //     // Get all the a tags in the document.
+    //     let aTags = doc.getElementsByTagName('a');
+    //     for (let i = aTags.length - 1; i >= 0; i--) {
+    //         let aTag = aTags[i];
 
-            // If the a tag wraps an img tag, replace the a tag with the img tag.
-            if (aTag.children.length == 1 && aTag.children[0].tagName.toLowerCase() == 'img') {
-                aTag.parentNode.replaceChild(aTag.children[0], aTag);
-            }
-        }
-    }
+    //         // If the a tag wraps an img tag, replace the a tag with the img tag.
+    //         if (aTag.children.length == 1 && aTag.children[0].tagName.toLowerCase() == 'img') {
+    //             aTag.parentNode.replaceChild(aTag.children[0], aTag);
+    //         }
+    //     }
+    // }
 
     // // get all the image tags on the page
     // const images = doc.getElementsByTagName('img');
