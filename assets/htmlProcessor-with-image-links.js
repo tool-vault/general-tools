@@ -118,6 +118,23 @@ function processHTML() {
     removeAttributeFromElements('li', 'style');
     removeAttributeFromElements('ul', 'style');
 
+    // checkbox option for removing a tags wrapping images
+    if (checkBox.checked == true) {
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(html, 'text/html');
+
+        // Get all the a tags in the document.
+        let aTags = doc.getElementsByTagName('a');
+        for (let i = aTags.length - 1; i >= 0; i--) {
+            let aTag = aTags[i];
+
+            // If the a tag wraps an img tag, replace the a tag with the img tag.
+            if (aTag.children.length == 1 && aTag.children[0].tagName.toLowerCase() == 'img') {
+                aTag.parentNode.replaceChild(aTag.children[0], aTag);
+            }
+        }
+    }
+
     // // get all the image tags on the page
     // const images = doc.getElementsByTagName('img');
 
@@ -143,7 +160,29 @@ function processHTML() {
         .replace(/<\/div>(\s|\n)*$/g, '') // Replace remove end div
         .replace(/http:/g, 'https:') // Replace http with https
         .replace(/<span[^>]*>|<\/span>/g, '') // Remove span tags
-        .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags
+
+        // // Cleaning code inside converted Doc
+        // .replace(/<p>(&nbsp;)*?&lt;(\/)?style&gt;<\/p>/g, '<$2style>') // Normalize CTA style tags
+        // .replace(/<style.*?<\/style>/gs, '') // Remove CTA style tags
+        // .replace(/<p>(&nbsp;)*?&lt;div\s*(class="learn-more-red")?&gt;<\/p>/g, '<div class="learn-more-red">') // Normalize CTA div start tags
+        // .replace(/<p>(&nbsp;)*?&lt;\/div&gt;<\/p>/g, '/div>') // Normalize CTA div end tags
+        // .replace(/<p>(&nbsp;)*?&lt;a\s*?href="([^"]*?)"&gt;/g, '<a href="$2">') // Normalize CTA div a begin tags
+        // .replace(/&lt;\/a&gt;<\/p>/g, '</a>') // Normalize CTA div a end tags
+
+        // // Test code for targeting div but bug with dom parser
+        // let divs = doc.querySelectorAll('div');
+
+        // divs.forEach(div => {
+        //     div.innerHTML = div.innerHTML.replace(/<p>/g, '')
+        //         .replace(/<\/p>/g, '')
+        //         .replace(/&nbsp;/g, '')
+        //         .replace(/&lt;/g, '<')
+        //         .replace(/&gt;/g, '>');
+        // });
+
+
+        // Extra Post Processing
+        .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags (rechecking)
         .replace(/(<p>&nbsp;<\/p>(\s|\n)*<p>&nbsp;<\/p>)+/g, '<p>&nbsp;</p>') // remove duplicate custom breaks
         .replace(/(<div class="HtmlModule">)+/g, '<div class="HtmlModule">') // remove duplicate modules
         .replace(/(<\/div>)+/g, '</div>') // remove duplicate divs
@@ -151,7 +190,7 @@ function processHTML() {
         .replace(/(<\/div>)/g, '$1\n<p>&nbsp;</p>') // Add spaces in end CTA (should be before adding hmtlmodule to images)
         .replace(/<p[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/p>/g, '$1$2$3') // Remove p tags wrapping a and images
         .replace(/<h\d[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/h\d>/g, '$1$2$3') // Remove heading tags wrapping a and images
-        // .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '$2') // Remove a tags wrapping images (mainly for WTVR)
+        // .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '$2') // Remove a tags wrapping image link (mainly for WTVR)
         .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '<div class="HtmlModule">$1$2$3</div>') // wrap div HTMLModule to a and images
         .replace(/<p[^>]*?>(<iframe[^>]*?>)/g, '$1') // Remove p start tags wrapping iframe
         .replace(/(<\/iframe[^>]*?>)<\/p>/g, '$1') // Remove p end tags wrapping iframe
@@ -172,7 +211,8 @@ function processHTML() {
         .replace(/(<ul>|<ol>)\n(<li>)/g, '$1$2') // fix for leading empty bullet lists
         .replace(/(<p>&nbsp;<\/p>(\s|\n)*<p>&nbsp;<\/p>)+/g, '<p>&nbsp;</p>') // remove duplicate custom breaks
         .replace(/(<div class="HtmlModule">)+/g, '<div class="HtmlModule">') // remove duplicate modules
-        .replace(/(<\/div>)+/g, '</div>'); // remove duplicate divs
+        .replace(/(<\/div>)+/g, '</div>') // remove duplicate divs
+    // .replace(/alt=[\"\'][\"\']/g, ''); // remove empty img alt
 
 
     // Fixing CTAs
@@ -257,4 +297,24 @@ function clearTextareas() {
     for (var i = 0; i < textareas.length; i++) {
         textareas[i].value = "";
     }
+}
+
+//Get the button
+var mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function () { scrollFunction() };
+
+function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+    } else {
+        mybutton.style.display = "none";
+    }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }

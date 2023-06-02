@@ -80,19 +80,19 @@ function processHTML() {
         anchor.setAttribute('target', '_blank');
     });
 
-    // Replace strong with b and em with i
-    const strongTags = doc.querySelectorAll('strong');
-    strongTags.forEach(tag => {
-        const b = doc.createElement('b');
-        b.innerHTML = tag.innerHTML;
-        tag.replaceWith(b);
-    });
-    const emTags = doc.querySelectorAll('em');
-    emTags.forEach(tag => {
-        const i = doc.createElement('i');
-        i.innerHTML = tag.innerHTML;
-        tag.replaceWith(i);
-    });
+    // // Replace strong with b and em with i (edit out on non-scripps)
+    // const strongTags = doc.querySelectorAll('strong');
+    // strongTags.forEach(tag => {
+    //     const b = doc.createElement('b');
+    //     b.innerHTML = tag.innerHTML;
+    //     tag.replaceWith(b);
+    // });
+    // const emTags = doc.querySelectorAll('em');
+    // emTags.forEach(tag => {
+    //     const i = doc.createElement('i');
+    //     i.innerHTML = tag.innerHTML;
+    //     tag.replaceWith(i);
+    // });
 
     // get all anchor elements with blank href attribute
     const emptyLinks = doc.querySelectorAll('a[href=""]');
@@ -118,23 +118,6 @@ function processHTML() {
     removeAttributeFromElements('li', 'style');
     removeAttributeFromElements('ul', 'style');
 
-    // checkbox option for removing a tags wrapping images
-    if (checkBox.checked == true) {
-        let parser = new DOMParser();
-        let doc = parser.parseFromString(html, 'text/html');
-
-        // Get all the a tags in the document.
-        let aTags = doc.getElementsByTagName('a');
-        for (let i = aTags.length - 1; i >= 0; i--) {
-            let aTag = aTags[i];
-
-            // If the a tag wraps an img tag, replace the a tag with the img tag.
-            if (aTag.children.length == 1 && aTag.children[0].tagName.toLowerCase() == 'img') {
-                aTag.parentNode.replaceChild(aTag.children[0], aTag);
-            }
-        }
-    }
-
     // // get all the image tags on the page
     // const images = doc.getElementsByTagName('img');
 
@@ -155,43 +138,10 @@ function processHTML() {
     // Additional Post Processing
     let processedHtml = doc.documentElement.innerHTML
         .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags (should be first to prevent issues targetting)
-        .replace(/<div class="HtmlModule">\n<style>table,td,th{border:1px solid #000;padding:10px;border-collapse:collapse}<\/style>\n<style>div.learn-more-red{margin-top:20px}.learn-more-red a{background-position:left;color:#fff;padding:15px 10px;border:1px #a30100 solid;text-decoration:none;font-family:Noto Serif;background:linear-gradient\(to left,#a30100 50%,#be4d4c 50%\) right;background-size:200%;font-size:18px;font-weight:500;transition:.5s ease-out}.learn-more-red a:hover{text-decoration:none;font-size:18px;background-position:left;border:1px #b53332 solid;color:#fff;font-weight:500}<\/style>/g, '') // Check for previous processing
-        .replace(/<style>(\s)*?div.learn-more-red{(\s)*?margin-top: 20px;(\s)*?}(\s)*?.learn-more-red a{(\s)*?background-position: left;(\s)*?color: #fff;(\s)*?padding: 15px 10px;(\s)*?border: 1px #A30100 solid;(\s)*?text-decoration: none;(\s)*?font-family: Noto Serif;(\s)*?background: linear-gradient\(to left, #A30100 50%, #BE4D4C 50%\) right;(\s)*?background-size: 200%;(\s)*?font-size: 18px;(\s)*?font-weight: 500;(\s)*?transition: .5s ease-out;(\s)*?}(\s)*?.learn-more-red a:hover{(\s)*?text-decoration: none;(\s)*?font-size: 18px;(\s)*?background-position: left;(\s)*?border: 1px #B53332 solid;(\s)*?color: #fff;(\s)*?font-weight: 500;(\s)*?}(\s)*?<\/style>/g, '') // Remove inline CTA in articles
-        .replace(/<\/div>(\s|\n)*$/g, '') // Replace remove end div
-        .replace(/http:/g, 'https:') // Replace http with https
         .replace(/<span[^>]*>|<\/span>/g, '') // Remove span tags
-
-        // // Cleaning code inside converted Doc
-        // .replace(/<p>(&nbsp;)*?&lt;(\/)?style&gt;<\/p>/g, '<$2style>') // Normalize CTA style tags
-        // .replace(/<style.*?<\/style>/gs, '') // Remove CTA style tags
-        // .replace(/<p>(&nbsp;)*?&lt;div\s*(class="learn-more-red")?&gt;<\/p>/g, '<div class="learn-more-red">') // Normalize CTA div start tags
-        // .replace(/<p>(&nbsp;)*?&lt;\/div&gt;<\/p>/g, '/div>') // Normalize CTA div end tags
-        // .replace(/<p>(&nbsp;)*?&lt;a\s*?href="([^"]*?)"&gt;/g, '<a href="$2">') // Normalize CTA div a begin tags
-        // .replace(/&lt;\/a&gt;<\/p>/g, '</a>') // Normalize CTA div a end tags
-
-        // // Test code for targeting div but bug with dom parser
-        // let divs = doc.querySelectorAll('div');
-
-        // divs.forEach(div => {
-        //     div.innerHTML = div.innerHTML.replace(/<p>/g, '')
-        //         .replace(/<\/p>/g, '')
-        //         .replace(/&nbsp;/g, '')
-        //         .replace(/&lt;/g, '<')
-        //         .replace(/&gt;/g, '>');
-        // });
-
-
-        // Extra Post Processing
         .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags (rechecking)
         .replace(/(<p>&nbsp;<\/p>(\s|\n)*<p>&nbsp;<\/p>)+/g, '<p>&nbsp;</p>') // remove duplicate custom breaks
-        .replace(/(<div class="HtmlModule">)+/g, '<div class="HtmlModule">') // remove duplicate modules
         .replace(/(<\/div>)+/g, '</div>') // remove duplicate divs
-        .replace(/(<div[^>]*?>)/g, '<p>&nbsp;</p>\n$1') // Add spaces in start CTA (should be before adding hmtlmodule to images)
-        .replace(/(<\/div>)/g, '$1\n<p>&nbsp;</p>') // Add spaces in end CTA (should be before adding hmtlmodule to images)
-        .replace(/<p[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/p>/g, '$1$2$3') // Remove p tags wrapping a and images
-        .replace(/<h\d[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/h\d>/g, '$1$2$3') // Remove heading tags wrapping a and images
-        .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '$2') // Remove a tags wrapping images (mainly for WTVR)
-        .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '<div class="HtmlModule">$1$2$3</div>') // wrap div HTMLModule to a and images
         .replace(/<p[^>]*?>(<iframe[^>]*?>)/g, '$1') // Remove p start tags wrapping iframe
         .replace(/(<\/iframe[^>]*?>)<\/p>/g, '$1') // Remove p end tags wrapping iframe
         .replace(/<p[^>]*?>(<script[^>]*?>)/g, '$1') // Remove p start tags wrapping script
