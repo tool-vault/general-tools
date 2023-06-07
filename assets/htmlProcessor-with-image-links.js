@@ -50,6 +50,7 @@ function findUrls() {
         link.textContent = dofollowUrl;
         listItem.appendChild(link);
         dofollowUrlsList.appendChild(listItem);
+        dofollowUrlsList.sort();
     });
 }
 // End of function to find nofollow and dofollow urls
