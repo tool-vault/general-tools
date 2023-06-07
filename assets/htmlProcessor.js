@@ -31,6 +31,7 @@ function findUrls() {
     // display the URLs with the nofollow attribute in a list
     var nofollowUrlsList = document.getElementById("nofollow-urls");
     nofollowUrlsList.innerHTML = "";
+    nofollowUrls.sort();
     nofollowUrls.forEach(function (nofollowUrl) {
         var listItem = document.createElement("li");
         var link = document.createElement("a");
@@ -38,12 +39,12 @@ function findUrls() {
         link.textContent = nofollowUrl;
         listItem.appendChild(link);
         nofollowUrlsList.appendChild(listItem);
-        nofollowUrlsList.sort();
     });
 
     // display the URLs without the nofollow attribute in a list
     var dofollowUrlsList = document.getElementById("dofollow-urls");
     dofollowUrlsList.innerHTML = "";
+    dofollowUrls.sort();
     dofollowUrls.forEach(function (dofollowUrl) {
         var listItem = document.createElement("li");
         var link = document.createElement("a");
@@ -51,7 +52,6 @@ function findUrls() {
         link.textContent = dofollowUrl;
         listItem.appendChild(link);
         dofollowUrlsList.appendChild(listItem);
-        dofollowUrlsList.sort();
     });
 }
 // End of function to find nofollow and dofollow urls
