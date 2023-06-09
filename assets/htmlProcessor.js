@@ -202,7 +202,7 @@ function processHTML() {
         .replace(/>>>/g, '>&gt;&gt;') // fix >>>
         .replace(/='/g, '=\"') // fix beginning single quotes
         .replace(/'>/g, '\">') // fix end single quotes
-        .replace(/\”/g, '\"') // fix curly quotes 
+        .replace(/\”|\“/g, '\"') // fix curly quotes 
         .replace(/<\/ol>\n<ol>/g, '') // fix incorrect oredered list
         .replace(/<\/ul>\n<ul>/g, '') // fix incorrect unordered list 
         .replace(/<\/a>(\w)/g, '</a> $1') // fix a and text
