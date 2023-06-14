@@ -131,6 +131,7 @@
                 var link = document.createElement("a");
                 link.href = nofollowUrl;
                 link.textContent = nofollowUrl;
+                link.target = "_blank"; // Add target attribute
                 listItem.appendChild(link);
                 nofollowUrlsList.appendChild(listItem);
             });

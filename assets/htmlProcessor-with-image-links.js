@@ -37,6 +37,7 @@ function findUrls() {
         var link = document.createElement("a");
         link.href = nofollowUrl;
         link.textContent = nofollowUrl;
+        link.target = "_blank"; // Add target attribute
         listItem.appendChild(link);
         nofollowUrlsList.appendChild(listItem);
     });
@@ -50,6 +51,7 @@ function findUrls() {
         var link = document.createElement("a");
         link.href = dofollowUrl;
         link.textContent = dofollowUrl;
+        link.target = "_blank"; // Add target attribute
         listItem.appendChild(link);
         dofollowUrlsList.appendChild(listItem);
     });
