@@ -145,6 +145,7 @@
                 var link = document.createElement("a");
                 link.href = dofollowUrl;
                 link.textContent = dofollowUrl;
+                link.target = "_blank"; // Add target attribute
                 listItem.appendChild(link);
                 dofollowUrlsList.appendChild(listItem);
             });
