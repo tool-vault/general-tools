@@ -159,7 +159,9 @@ function processHTML() {
     // Additional Post Processing
     let processedHtml = doc.documentElement.innerHTML
         .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags (should be first to prevent issues targetting)
-        .replace(/<div class="HtmlModule">\n<style>table,td,th{border:1px solid #000;padding:10px;border-collapse:collapse}<\/style>\n<style>div.learn-more-red{margin-top:20px}.learn-more-red a{background-position:left;color:#fff;padding:15px 10px;border:1px #a30100 solid;text-decoration:none;font-family:Noto Serif;background:linear-gradient\(to left,#a30100 50%,#be4d4c 50%\) right;background-size:200%;font-size:18px;font-weight:500;transition:.5s ease-out}.learn-more-red a:hover{text-decoration:none;font-size:18px;background-position:left;border:1px #b53332 solid;color:#fff;font-weight:500}<\/style>/g, '') // Check for previous processing
+        .replace(/<div class="HtmlModule">\n<style>table,td,th{border:1px solid #000;padding:10px;border-collapse:collapse}<\/style>/g, '') // Check for previous processing
+        .replace(/<style>div.learn-more-red{margin-top:20px}.learn-more-red a{background-position:left;color:#fff;padding:15px 10px;border:1px #a30100 solid;text-decoration:none;font-family:Noto Serif;background:linear-gradient\(to left,#a30100 50%,#be4d4c 50%\) right;background-size:200%;font-size:18px;font-weight:500;transition:.5s ease-out}.learn-more-red a:hover{text-decoration:none;font-size:18px;background-position:left;border:1px #b53332 solid;color:#fff;font-weight:500}<\/style>/g, '') // Check for previous processing
+        .replace(/<style>img{height:auto;max-width:100%}<\/style>/g, '') // Check for previous processing
         .replace(/<style>(\s)*?div.learn-more-red{(\s)*?margin-top: 20px;(\s)*?}(\s)*?.learn-more-red a{(\s)*?background-position: left;(\s)*?color: #fff;(\s)*?padding: 15px 10px;(\s)*?border: 1px #A30100 solid;(\s)*?text-decoration: none;(\s)*?font-family: Noto Serif;(\s)*?background: linear-gradient\(to left, #A30100 50%, #BE4D4C 50%\) right;(\s)*?background-size: 200%;(\s)*?font-size: 18px;(\s)*?font-weight: 500;(\s)*?transition: .5s ease-out;(\s)*?}(\s)*?.learn-more-red a:hover{(\s)*?text-decoration: none;(\s)*?font-size: 18px;(\s)*?background-position: left;(\s)*?border: 1px #B53332 solid;(\s)*?color: #fff;(\s)*?font-weight: 500;(\s)*?}(\s)*?<\/style>/g, '') // Remove inline CTA in articles
         .replace(/<\/div>(\s|\n)*$/g, '') // Replace remove end div
         .replace(/http:/g, 'https:') // Replace http with https
@@ -194,7 +196,7 @@ function processHTML() {
         .replace(/(<\/div>)/g, '$1\n<p>&nbsp;</p>') // Add spaces in end CTA (should be before adding hmtlmodule to images)
         .replace(/<p[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/p>/g, '$1$2$3') // Remove p tags wrapping a and images
         .replace(/<h\d[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/h\d>/g, '$1$2$3') // Remove heading tags wrapping a and images
-        .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '$2') // Remove a tags wrapping images (mainly for WTVR)
+        .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '$2') // Remove a tags wrapping images (mainly for sites accepting image links)
         .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '<div class="HtmlModule">$1$2$3</div>') // wrap div HTMLModule to a and images
         .replace(/<p[^>]*?>(<iframe[^>]*?>)/g, '$1') // Remove p start tags wrapping iframe
         .replace(/(<\/iframe[^>]*?>)<\/p>/g, '$1') // Remove p end tags wrapping iframe
@@ -229,11 +231,12 @@ function processHTML() {
     // Add CSS Styles for CTA and Tables has to be minified"
     const minifiedCtaCssHtml = `<style>table,td,th{border:1px solid #000;padding:10px;border-collapse:collapse}</style>`;
     const minifiedTableCssHtml = `<style>div.learn-more-red{margin-top:20px}.learn-more-red a{background-position:left;color:#fff;padding:15px 10px;border:1px #a30100 solid;text-decoration:none;font-family:Noto Serif;background:linear-gradient(to left,#a30100 50%,#be4d4c 50%) right;background-size:200%;font-size:18px;font-weight:500;transition:.5s ease-out}.learn-more-red a:hover{text-decoration:none;font-size:18px;background-position:left;border:1px #b53332 solid;color:#fff;font-weight:500}</style>`
+    const minifiedImageCssHtml = `<style>img{height:auto;max-width:100%}</style>`
     const startModule = '<div class="HtmlModule">'
     const endModule = '</div>'
-    const completeSet = `${startModule}\n${minifiedCtaCssHtml}\n${minifiedTableCssHtml}`
+    const completeSet = `${startModule}\n${minifiedCtaCssHtml}\n${minifiedTableCssHtml}\n${minifiedImageCssHtml}`
 
-    const finalHtml = `${minifiedCtaCssHtml}\n${minifiedTableCssHtml}\n` + processedHtml;
+    const finalHtml = `${minifiedCtaCssHtml}\n${minifiedTableCssHtml}\n${minifiedImageCssHtml}\n` + processedHtml;
 
     // Wrap final HTML inside a div with the class "HtmlModule"
     //const outputHtml = `<div class="HtmlModule">\n<div class="HtmlModule">\n${finalHtml}\n</div>\n</div>`;
