@@ -31,11 +31,13 @@ function findUrls() {
     // display the URLs with the nofollow attribute in a list
     var nofollowUrlsList = document.getElementById("nofollow-urls");
     nofollowUrlsList.innerHTML = "";
+    nofollowUrls.sort();
     nofollowUrls.forEach(function (nofollowUrl) {
         var listItem = document.createElement("li");
         var link = document.createElement("a");
         link.href = nofollowUrl;
         link.textContent = nofollowUrl;
+        link.target = "_blank"; // Add target attribute
         listItem.appendChild(link);
         nofollowUrlsList.appendChild(listItem);
     });
@@ -43,11 +45,13 @@ function findUrls() {
     // display the URLs without the nofollow attribute in a list
     var dofollowUrlsList = document.getElementById("dofollow-urls");
     dofollowUrlsList.innerHTML = "";
+    dofollowUrls.sort();
     dofollowUrls.forEach(function (dofollowUrl) {
         var listItem = document.createElement("li");
         var link = document.createElement("a");
         link.href = dofollowUrl;
         link.textContent = dofollowUrl;
+        link.target = "_blank"; // Add target attribute
         listItem.appendChild(link);
         dofollowUrlsList.appendChild(listItem);
     });
@@ -80,7 +84,7 @@ function processHTML() {
         anchor.setAttribute('target', '_blank');
     });
 
-    // // Replace strong with b and em with i (edit out on non-scripps)
+    // // Replace strong with b and em with i
     // const strongTags = doc.querySelectorAll('strong');
     // strongTags.forEach(tag => {
     //     const b = doc.createElement('b');
@@ -117,76 +121,37 @@ function processHTML() {
     // remove the "style" attribute from all <li> and <ul> elements
     removeAttributeFromElements('li', 'style');
     removeAttributeFromElements('ul', 'style');
+    removeAttributeFromElements('ol', 'style');
 
-    // // get all the image tags on the page
-    // const images = doc.getElementsByTagName('img');
-
-    // // loop through each image tag
-    // for (let i = 0; i < images.length; i++) {
-    //     const img = images[i];
-
-    //     // get the parent element of the image
-    //     let parent = img.parentNode;
-
-    //     // loop through parent elements until we find one that doesn't wrap the image tag
-    //     while (parent.tagName !== "body" && parent.tagName !== "html" && parent.tagName !== "div" && parent.getElementsByTagName("img").length === 1) {
-    //         img.parentNode.insertBefore(parent.firstChild, parent);
-    //         img.parentNode.removeChild(parent);
-    //         parent = img.parentNode;
-    //     }
-    // }
     // Additional Post Processing
     let processedHtml = doc.documentElement.innerHTML
         .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags (should be first to prevent issues targetting)
+        .replace(/<style>(\s)*?div.learn-more-red{(\s)*?margin-top: 20px;(\s)*?}(\s)*?.learn-more-red a{(\s)*?background-position: left;(\s)*?color: #fff;(\s)*?padding: 15px 10px;(\s)*?border: 1px #A30100 solid;(\s)*?text-decoration: none;(\s)*?font-family: Noto Serif;(\s)*?background: linear-gradient\(to left, #A30100 50%, #BE4D4C 50%\) right;(\s)*?background-size: 200%;(\s)*?font-size: 18px;(\s)*?font-weight: 500;(\s)*?transition: .5s ease-out;(\s)*?}(\s)*?.learn-more-red a:hover{(\s)*?text-decoration: none;(\s)*?font-size: 18px;(\s)*?background-position: left;(\s)*?border: 1px #B53332 solid;(\s)*?color: #fff;(\s)*?font-weight: 500;(\s)*?}(\s)*?<\/style>/g, '') // Remove inline CTA in articles
+        .replace(/http:/g, 'https:') // Replace http with https
         .replace(/<span[^>]*>|<\/span>/g, '') // Remove span tags
+        // Extra Post Processing
         .replace(/<\/?(html|head|body)[^>]*>/g, '') // Remove html, head, and body tags (rechecking)
         .replace(/(<p>&nbsp;<\/p>(\s|\n)*<p>&nbsp;<\/p>)+/g, '<p>&nbsp;</p>') // remove duplicate custom breaks
-        .replace(/(<\/div>)+/g, '</div>') // remove duplicate divs
-        .replace(/<p[^>]*?>(<iframe[^>]*?>)/g, '$1') // Remove p start tags wrapping iframe
-        .replace(/(<\/iframe[^>]*?>)<\/p>/g, '$1') // Remove p end tags wrapping iframe
-        .replace(/<p[^>]*?>(<script[^>]*?>)/g, '$1') // Remove p start tags wrapping script
-        .replace(/(\/<script[^>]*?>)<\/p>/g, '$1') // Remove p end tags wrapping script
+        .replace(/<h\d[^>]*?>(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?<\/h\d>/g, '<p>$1$2$3</p>') // Remove heading tags wrapping a and images
+        // .replace(/(<a[^>]*?>)?(<img[^>]*?>)(<\/a>)?/g, '$2') // Remove a tags wrapping images (mainly for sites not accepting image links)
         .replace(/<<</g, '<&lt;&lt;') // fix <<<
         .replace(/>>>/g, '>&gt;&gt;') // fix >>>
         .replace(/='/g, '=\"') // fix beginning single quotes
         .replace(/'>/g, '\">') // fix end single quotes
-        .replace(/\”/g, '\"') // fix curly quotes 
+        .replace(/\”|\“/g, '\"') // fix curly quotes 
         .replace(/<\/ol>\n<ol>/g, '') // fix incorrect oredered list
         .replace(/<\/ul>\n<ul>/g, '') // fix incorrect unordered list 
         .replace(/<\/a>(\w)/g, '</a> $1') // fix a and text
         .replace(/style="list-style-type:\s*?disc;?"/g, '') // clean bullet list styles
         .replace(/style="text-align:\s*?justify;?"/g, '') // clean justify styles
-        .replace(/<\/?br^>]*?>/g, '') // clean br tags
         .replace(/(async|defer)=""/g, '$1') // fix for async and defer widget
         .replace(/(<ul>|<ol>)\n(<li>)/g, '$1$2') // fix for leading empty bullet lists
         .replace(/(<p>&nbsp;<\/p>(\s|\n)*<p>&nbsp;<\/p>)+/g, '<p>&nbsp;</p>') // remove duplicate custom breaks
         .replace(/(<div class="HtmlModule">)+/g, '<div class="HtmlModule">') // remove duplicate modules
-        .replace(/(<\/div>)+/g, '</div>') // remove duplicate divs
-    // .replace(/alt=[\"\'][\"\']/g, ''); // remove empty img alt
 
-
-    // Fixing CTAs
-    // let processedHtml = doc.documentElement.innerHTML
-    //     .replace(/<p>&lt;style&gt;<\/p>/g, '<style>') // 
-    //     .replace(/<p>    &lt;/style&gt;</p>/g, '<style>') // R
-    // <p>&lt;style&gt;</p>
-    // <p>    &lt;/style&gt;</p>
-
-    // Add CSS Styles for CTA and Tables has to be minified"
-    const minifiedCtaCssHtml = `<style>table,td,th{border:1px solid #000;padding:10px;border-collapse:collapse}</style>`;
-    const minifiedTableCssHtml = `<style>div.learn-more-red{margin-top:20px}.learn-more-red a{background-position:left;color:#fff;padding:15px 10px;border:1px #a30100 solid;text-decoration:none;font-family:Noto Serif;background:linear-gradient(to left,#a30100 50%,#be4d4c 50%) right;background-size:200%;font-size:18px;font-weight:500;transition:.5s ease-out}.learn-more-red a:hover{text-decoration:none;font-size:18px;background-position:left;border:1px #b53332 solid;color:#fff;font-weight:500}</style>`
-    const startModule = '<div class="HtmlModule">'
-    const endModule = '</div>'
-    const completeSet = `${startModule}\n${minifiedCtaCssHtml}\n${minifiedTableCssHtml}`
-
-    const finalHtml = `${minifiedCtaCssHtml}\n${minifiedTableCssHtml}\n` + processedHtml;
-
-    // Wrap final HTML inside a div with the class "HtmlModule"
-    //const outputHtml = `<div class="HtmlModule">\n<div class="HtmlModule">\n${finalHtml}\n</div>\n</div>`;
-    let outputHtml = `<div class="HtmlModule">\n${finalHtml}\n</div>`;
 
     // Remove indents and empty lines
-    outputHtml = outputHtml
+    outputHtml = processedHtml
         .replace(/^\s+/gm, '')
         .replace(/^\s*[\r\n]/gm, '');
 
