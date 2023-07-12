@@ -145,7 +145,6 @@ function processHTML() {
         .replace(/style="list-style-type:\s*?disc;?"/g, '') // clean bullet list styles
         .replace(/style="text-align:\s*?justify;?"/g, '') // clean justify styles
         .replace(/(async|defer)=""/g, '$1') // fix for async and defer widget
-        .replace(/(<ul>|<ol>)\n(<li>)/g, '$1$2') // fix for leading empty bullet lists
         .replace(/(<p>&nbsp;<\/p>(\s|\n)*<p>&nbsp;<\/p>)+/g, '<p>&nbsp;</p>') // remove duplicate custom breaks
         .replace(/(<div class="HtmlModule">)+/g, '<div class="HtmlModule">') // remove duplicate modules
 
