@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Link Counter</title>
+    <title>Text Analyzer</title>
     <script>
-        function countLinks() {
+        function analyzeText() {
             var richText = document.getElementById("rich_text").innerHTML;
             var tempElement = document.createElement("div");
             tempElement.innerHTML = richText;
+
+            // Count links
             var links = tempElement.getElementsByTagName("a");
             var linkCount = links.length;
-            document.getElementById("result").innerText = "Number of links: " + linkCount;
+            document.getElementById("link_count").innerText = "Number of links: " + linkCount;
+
+            // Count words
+            var text = tempElement.innerText;
+            var wordCount = text.trim().split(/\s+/).length;
+            document.getElementById("word_count").innerText = "Number of words: " + wordCount;
+
+            // Count images
+            var images = tempElement.getElementsByTagName("img");
+            var imageCount = images.length;
+            document.getElementById("image_count").innerText = "Number of images: " + imageCount;
         }
     </script>
 </head>
 <body>
-    <button onclick="countLinks()">Count Links</button>
-    <div id="result"></div>
-    <h1>Link Counter</h1>
+    <h1>Text Analyzer</h1>
     <div id="rich_text" contenteditable="true" style="border: 1px solid black; padding: 5px;" rows="10" cols="50"></div>
     <br>
-    
+    <button onclick="analyzeText()">Analyze Text</button>
+    <div id="link_count"></div>
+    <div id="word_count"></div>
+    <div id="image_count"></div>
 </body>
 </html>
