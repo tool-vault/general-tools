@@ -98,7 +98,7 @@
             var headerCell2 = headerRow.insertCell(1);
             var headerCell3 = headerRow.insertCell(2);
             headerCell1.innerHTML = "<b>Anchor Text</b>";
-            headerCell2.innerHTML = "<b>href</b>";
+            headerCell2.innerHTML = "<b>Link</b>";
             headerCell3.innerHTML = "<b>Count</b>";
 
             for (var anchorText in anchorTextCount) {
@@ -159,7 +159,7 @@
             <p>Copy and paste google doc below:</p>
             <div id="rich_text" contenteditable="true" style="border: 1px solid black; padding: 5px;" rows="10" cols="50"></div>
             <br>
-            <button onclick="analyzeText()">Analyze Text</button>
+            <button onclick="analyzeText()">Analyze Article</button>
             <div id="link_count"></div>
             <div id="unique_link_count"></div>
             <div id="word_count"></div>
@@ -170,7 +170,7 @@
         </article>
     </main>
     <p role="button" id="myBtn" onclick="topFunction()">Top</p>
-    <p role="button" id="myBtnClear" onclick="topFunction()">Top</p>
+    <!-- <p role="button" id="myBtnClear" onclick="topFunction()">Top</p> -->
     <script>
         //Get the button
         var mybutton = document.getElementById("myBtn");
