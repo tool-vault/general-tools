@@ -2,6 +2,16 @@
 <html>
 <head>
     <title>Text Analyzer</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
     <script>
         function analyzeText() {
             var richText = document.getElementById("rich_text").innerHTML;
@@ -11,17 +21,46 @@
             // Count links
             var links = tempElement.getElementsByTagName("a");
             var linkCount = links.length;
-            document.getElementById("link_count").innerText = "Number of links: " + linkCount;
+            document.getElementById("link_count").innerText = "Total links: " + linkCount;
+
+            // Count unique links
+            var uniqueLinks = [];
+            for (var i = 0; i < links.length; i++) {
+                var href = links[i].getAttribute("href");
+                if (!uniqueLinks.includes(href)) {
+                    uniqueLinks.push(href);
+                }
+            }
+            var uniqueLinkCount = uniqueLinks.length;
+            document.getElementById("unique_link_count").innerText = "Unique links: " + uniqueLinkCount;
 
             // Count words
             var text = tempElement.innerText;
             var wordCount = text.trim().split(/\s+/).length;
-            document.getElementById("word_count").innerText = "Number of words: " + wordCount;
+            document.getElementById("word_count").innerText = "Total words: " + wordCount;
 
             // Count images
             var images = tempElement.getElementsByTagName("img");
             var imageCount = images.length;
-            document.getElementById("image_count").innerText = "Number of images: " + imageCount;
+            document.getElementById("image_count").innerText = "Total images: " + imageCount;
+
+            // Anchor text breakdown
+            var anchorTextTable = document.getElementById("anchor_text_table");
+            anchorTextTable.innerHTML = "";
+            var anchorTextCount = {};
+            for (var j = 0; j < links.length; j++) {
+                var anchorText = links[j].innerText;
+                anchorTextCount[anchorText] = (anchorTextCount[anchorText] || 0) + 1;
+            }
+
+            for (var anchor in anchorTextCount) {
+                var count = anchorTextCount[anchor];
+                var row = anchorTextTable.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = anchor;
+                cell2.innerHTML = count;
+            }
         }
     </script>
 </head>
@@ -31,7 +70,15 @@
     <br>
     <button onclick="analyzeText()">Analyze Text</button>
     <div id="link_count"></div>
+    <div id="unique_link_count"></div>
     <div id="word_count"></div>
     <div id="image_count"></div>
+    <br>
+    <table id="anchor_text_table">
+        <tr>
+            <th>Anchor Text</th>
+            <th>Count</th>
+        </tr>
+    </table>
 </body>
 </html>
