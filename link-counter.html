@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Link Counter</title>
+    <script>
+        function countLinks() {
+            var richText = document.getElementById("rich_text").innerHTML;
+            var tempElement = document.createElement("div");
+            tempElement.innerHTML = richText;
+            var links = tempElement.getElementsByTagName("a");
+            var linkCount = links.length;
+            document.getElementById("result").innerText = "Number of links: " + linkCount;
+        }
+    </script>
+</head>
+<body>
+    <button onclick="countLinks()">Count Links</button>
+    <div id="result"></div>
+    <br>
+    <h1>Link Counter</h1>
+    <div id="rich_text" contenteditable="true" style="border: 1px solid black; padding: 5px;" rows="10" cols="50"></div>
+</body>
+</html>
