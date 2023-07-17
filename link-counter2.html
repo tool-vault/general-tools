@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Analyzer</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+    <script>
+        function analyzeText() {
+            var richText = document.getElementById("rich_text").innerHTML;
+            var tempElement = document.createElement("div");
+            tempElement.innerHTML = richText;
+
+            // Count links
+            var links = tempElement.getElementsByTagName("a");
+            var linkCount = links.length;
+            document.getElementById("link_count").innerText = "Total links: " + linkCount;
+
+            // Count unique links
+            var uniqueLinks = [];
+            var anchorTextCount = {};
+            for (var i = 0; i < links.length; i++) {
+                var href = links[i].getAttribute("href");
+                var anchorText = links[i].innerText;
+                if (!uniqueLinks.includes(href)) {
+                    uniqueLinks.push(href);
+                }
+                anchorTextCount[anchorText] = anchorTextCount[anchorText] || 0;
+                anchorTextCount[anchorText]++;
+            }
+            var uniqueLinkCount = uniqueLinks.length;
+            document.getElementById("unique_link_count").innerText = "Unique links: " + uniqueLinkCount;
+
+            // Count words
+            var text = tempElement.innerText;
+            var wordCount = text.trim().split(/\s+/).length;
+            document.getElementById("word_count").innerText = "Total words: " + wordCount;
+
+            // Count images
+            var images = tempElement.getElementsByTagName("img");
+            var imageCount = images.length;
+            document.getElementById("image_count").innerText = "Total images: " + imageCount;
+
+            // Summary table
+            var summaryTable = document.getElementById("summary_table");
+            summaryTable.innerHTML = "";
+            var headerRow = summaryTable.insertRow();
+            var headerCell1 = headerRow.insertCell(0);
+            var headerCell2 = headerRow.insertCell(1);
+            var headerCell3 = headerRow.insertCell(2);
+            headerCell1.innerHTML = "<b>Anchor Text</b>";
+            headerCell2.innerHTML = "<b>href</b>";
+            headerCell3.innerHTML = "<b>Count</b>";
+
+            for (var anchorText in anchorTextCount) {
+                var count = anchorTextCount[anchorText];
+                var hrefs = [];
+                for (var j = 0; j < links.length; j++) {
+                    var linkHref = links[j].getAttribute("href");
+                    var linkText = links[j].innerText;
+                    if (linkText === anchorText && !hrefs.includes(linkHref)) {
+                        hrefs.push(linkHref);
+                    }
+                }
+                var row = summaryTable.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                cell1.innerHTML = anchorText;
+                cell2.innerHTML = hrefs.join("<br>");
+                cell3.innerHTML = count;
+            }
+        }
+
+        function clearText() {
+            document.getElementById("rich_text").innerHTML = "";
+            document.getElementById("link_count").innerText = "";
+            document.getElementById("unique_link_count").innerText = "";
+            document.getElementById("word_count").innerText = "";
+            document.getElementById("image_count").innerText = "";
+            document.getElementById("summary_table").innerHTML = "";
+        }
+    </script>
+</head>
+<body>
+    <h1>Text Analyzer</h1>
+    <div id="rich_text" contenteditable="true" style="border: 1px solid black; padding: 5px;" rows="10" cols="50"></div>
+    <br>
+    <button onclick="analyzeText()">Analyze Text</button>
+    <button onclick="clearText()">Clear Text</button>
+    <div id="link_count"></div>
+    <div id="unique_link_count"></div>
+    <div id="word_count"></div>
+    <div id="image_count"></div>
+    <br>
+    <table id="summary_table">
+    </table>
+</body>
+</html>

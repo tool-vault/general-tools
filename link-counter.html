@@ -1,13 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="light">
+
 <head>
-    <title>Text Analyzer</title>
+    <title>Article Analyzer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <style>
+        .container-80 {
+            width: 80%;
+        }
+
+        #myBtn {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Fixed/sticky position */
+            bottom: 20px;
+            /* Place the button at the bottom of the page */
+            right: 30px;
+            /* Place the button 30px from the right */
+            z-index: 99;
+            /* Make sure it does not overlap */
+            border: none;
+            /* Remove borders */
+            outline: none;
+            /* Remove outline */
+            /* background-color: red; */
+            /* Set a background color */
+            color: white;
+            /* Text color */
+            cursor: pointer;
+            /* Add a mouse pointer on hover */
+            padding: 15px;
+            /* Some padding */
+            border-radius: 10px;
+            /* Rounded corners */
+            font-size: 18px;
+            /* Increase font size */
+        }
+
+        #myBtn:hover {
+            background-color: #555;
+            /* Add a dark-grey background on hover */
+        }
+    </style>
     <style>
         table {
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid black;
             padding: 5px;
         }
@@ -25,11 +67,15 @@
 
             // Count unique links
             var uniqueLinks = [];
+            var anchorTextCount = {};
             for (var i = 0; i < links.length; i++) {
                 var href = links[i].getAttribute("href");
+                var anchorText = links[i].innerText;
                 if (!uniqueLinks.includes(href)) {
                     uniqueLinks.push(href);
                 }
+                anchorTextCount[anchorText] = anchorTextCount[anchorText] || 0;
+                anchorTextCount[anchorText]++;
             }
             var uniqueLinkCount = uniqueLinks.length;
             document.getElementById("unique_link_count").innerText = "Unique links: " + uniqueLinkCount;
@@ -44,41 +90,119 @@
             var imageCount = images.length;
             document.getElementById("image_count").innerText = "Total images: " + imageCount;
 
-            // Anchor text breakdown
-            var anchorTextTable = document.getElementById("anchor_text_table");
-            anchorTextTable.innerHTML = "";
-            var anchorTextCount = {};
-            for (var j = 0; j < links.length; j++) {
-                var anchorText = links[j].innerText;
-                anchorTextCount[anchorText] = (anchorTextCount[anchorText] || 0) + 1;
-            }
+            // Summary table
+            var summaryTable = document.getElementById("summary_table");
+            summaryTable.innerHTML = "";
+            var headerRow = summaryTable.insertRow();
+            var headerCell1 = headerRow.insertCell(0);
+            var headerCell2 = headerRow.insertCell(1);
+            var headerCell3 = headerRow.insertCell(2);
+            headerCell1.innerHTML = "<b>Anchor Text</b>";
+            headerCell2.innerHTML = "<b>href</b>";
+            headerCell3.innerHTML = "<b>Count</b>";
 
-            for (var anchor in anchorTextCount) {
-                var count = anchorTextCount[anchor];
-                var row = anchorTextTable.insertRow();
+            for (var anchorText in anchorTextCount) {
+                var count = anchorTextCount[anchorText];
+                var hrefs = [];
+                for (var j = 0; j < links.length; j++) {
+                    var linkHref = links[j].getAttribute("href");
+                    var linkText = links[j].innerText;
+                    if (linkText === anchorText && !hrefs.includes(linkHref)) {
+                        hrefs.push(linkHref);
+                    }
+                }
+                var row = summaryTable.insertRow();
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
-                cell1.innerHTML = anchor;
-                cell2.innerHTML = count;
+                var cell3 = row.insertCell(2);
+                cell1.innerHTML = anchorText;
+                cell2.innerHTML = hrefs.join("<br>");
+                cell3.innerHTML = count;
             }
+        }
+
+        function clearTextareas() {
+            document.getElementById("rich_text").innerHTML = "";
+            document.getElementById("link_count").innerText = "";
+            document.getElementById("unique_link_count").innerText = "";
+            document.getElementById("word_count").innerText = "";
+            document.getElementById("image_count").innerText = "";
+            document.getElementById("summary_table").innerHTML = "";
         }
     </script>
 </head>
+
 <body>
-    <h1>Text Analyzer</h1>
-    <div id="rich_text" contenteditable="true" style="border: 1px solid black; padding: 5px;" rows="10" cols="50"></div>
-    <br>
-    <button onclick="analyzeText()">Analyze Text</button>
-    <div id="link_count"></div>
-    <div id="unique_link_count"></div>
-    <div id="word_count"></div>
-    <div id="image_count"></div>
-    <br>
-    <table id="anchor_text_table">
-        <tr>
-            <th>Anchor Text</th>
-            <th>Count</th>
-        </tr>
-    </table>
+    <nav class="container-fluid">
+        <ul>
+            <li>
+                <p>PM Publishing Tools</p>
+            </li>
+        </ul>
+        <ul>
+            <small>
+                <li><a href="https://tool-vault.github.io/general-tools/">Home</a></li>
+                <li><a href="https://tool-vault.github.io/general-tools/html-processor.html">HTML Processor</a></li>
+                <li><a href="https://tool-vault.github.io/general-tools/html-processor-general-use.html">HTML Processor (General)</a></li>
+                <li><a href="https://tool-vault.github.io/general-tools/image-to-html.html">Image to HTML</a></li>
+                <li><a href="https://tool-vault.github.io/general-tools/url-slug-generator.html">URL Slug Generator</a></li>
+                <li><a href="https://tool-vault.github.io/general-tools/dofollow-nofollow-checker.html">Dofollow Nofollow Checker</a></li>
+                <li><a href="https://tool-vault.github.io/general-tools/html-processor-with-image-links.html">HTML Processor (Images)</a></li>
+                <li><a href="https://tool-vault.github.io/general-tools/playground/playground.html">Playground</a></li>
+            </small>
+        </ul>
+    </nav>
+    <main class="container-80">
+        <h1>Article Analyzer</h1>
+        <article>
+            <button onclick="clearTextareas()">Clear Textareas</button>
+            <p>Copy and paste google doc below:</p>
+            <div id="rich_text" contenteditable="true" style="border: 1px solid black; padding: 5px;" rows="10" cols="50"></div>
+            <br>
+            <button onclick="analyzeText()">Analyze Text</button>
+            <div id="link_count"></div>
+            <div id="unique_link_count"></div>
+            <div id="word_count"></div>
+            <div id="image_count"></div>
+            <br>
+            <table id="summary_table">
+            </table>
+        </article>
+    </main>
+    <p role="button" id="myBtn" onclick="topFunction()">Top</p>
+    <p role="button" id="myBtnClear" onclick="topFunction()">Top</p>
+    <script>
+        //Get the button
+        var mybutton = document.getElementById("myBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+                mybutton.style.fixed = "fixed";
+                mybutton.style.fixed = "fixed";
+                mybutton.style.bottom = "20px";
+                mybutton.style.right = "30px";
+                mybutton.style.zIndex = "99";
+                mybutton.style.border = "none";
+                mybutton.style.outline = "none";
+                mybutton.style.color = "white";
+                mybutton.style.cursor = "pointer";
+                mybutton.style.padding = "15px";
+                mybutton.style.borderRadius = "10px";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    </script>
 </body>
+
 </html>
