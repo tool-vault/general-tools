@@ -42,16 +42,68 @@
             background-color: #555;
             /* Add a dark-grey background on hover */
         }
+
+        #myClrBtn {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Fixed/sticky position */
+            bottom: 20px;
+            /* Place the button at the bottom of the page */
+            right: 40px;
+            /* Place the button 30px from the right */
+            z-index: 98;
+            /* Make sure it does not overlap */
+            border: none;
+            /* Remove borders */
+            outline: none;
+            /* Remove outline */
+            /* background-color: red; */
+            /* Set a background color */
+            color: white;
+            /* Text color */
+            cursor: pointer;
+            /* Add a mouse pointer on hover */
+            padding: 15px;
+            /* Some padding */
+            border-radius: 10px;
+            /* Rounded corners */
+            font-size: 18px;
+            /* Increase font size */
+        }
+
+        #myClrBtn:hover {
+            background-color: #555;
+            /* Add a dark-grey background on hover */
+        }
+
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
     </style>
     <style>
         table {
             border-collapse: collapse;
+            table-layout: fixed;
+            /* width: 80%; */
+            margin-left: auto;
+            margin-right: auto;
         }
 
         th,
         td {
             border: 1px solid black;
             padding: 5px;
+        }
+
+        .count-column {
+            width: 10%;
         }
     </style>
     <script>
@@ -118,6 +170,7 @@
                 cell1.innerHTML = anchorText;
                 cell2.innerHTML = hrefs.join("<br>");
                 cell3.innerHTML = count;
+                cell3.classList.add("count-column");
             }
         }
 
@@ -170,10 +223,11 @@
         </article>
     </main>
     <p role="button" id="myBtn" onclick="topFunction()">Top</p>
-    <!-- <p role="button" id="myBtnClear" onclick="topFunction()">Top</p> -->
+    <p role="button" id="myClrBtn" onclick="clearTextareas()">Clear</p>
     <script>
         //Get the button
         var mybutton = document.getElementById("myBtn");
+        var myclrbutton = document.getElementById("myClrBtn");
 
         // When the user scrolls down 20px from the top of the document, show the button
         window.onscroll = function () { scrollFunction() };
@@ -192,10 +246,24 @@
                 mybutton.style.cursor = "pointer";
                 mybutton.style.padding = "15px";
                 mybutton.style.borderRadius = "10px";
+                myclrbutton.style.display = "block";
+                myclrbutton.style.fixed = "fixed";
+                myclrbutton.style.fixed = "fixed";
+                myclrbutton.style.bottom = "20px";
+                myclrbutton.style.right = "90px";
+                myclrbutton.style.zIndex = "99";
+                myclrbutton.style.border = "none";
+                myclrbutton.style.outline = "none";
+                myclrbutton.style.color = "white";
+                myclrbutton.style.cursor = "pointer";
+                myclrbutton.style.padding = "15px";
+                myclrbutton.style.borderRadius = "10px";
             } else {
                 mybutton.style.display = "none";
+                myclrbutton.style.display = "none";
             }
         }
+
 
         // When the user clicks on the button, scroll to the top of the document
         function topFunction() {
