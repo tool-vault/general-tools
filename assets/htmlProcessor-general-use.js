@@ -147,7 +147,7 @@ function processHTML() {
         .replace(/(async|defer)=""/g, '$1') // fix for async and defer widget
         .replace(/(<p>&nbsp;<\/p>(\s|\n)*<p>&nbsp;<\/p>)+/g, '<p>&nbsp;</p>') // remove duplicate custom breaks
         .replace(/(<div class="HtmlModule">)+/g, '<div class="HtmlModule">') // remove duplicate modules
-        .replace(/>\s</g, '><') // fix empty space between tags
+        .replace(/>\t</g, '><') // fix empty space between tags (fixed it included newline)
 
 
     // Remove indents and empty lines
